@@ -7,7 +7,9 @@ I used [this tutorial](https://code.visualstudio.com/docs/languages/cpp#_example
 
 I downloaded [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/) for a simple graphics interface. Now the compilation and run instructions must include paths to the new library.
 
-**TODO: create batch file (make file?) to run all commands at once** 
+### Batch Script
+Use the command `run` in the windows command line to run the batch script. This will run the commands below
+TODO: make file? 
 
 compile the program:
 `g++ -c main.cpp -IC:\SFML-gcc\SFML-2.5.1\include`
