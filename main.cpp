@@ -13,6 +13,9 @@ TODO:
 
 int main()
 {
+    // random
+    srand(static_cast<unsigned>(time(NULL)));
+
     // game engine class object
     Game game;
 

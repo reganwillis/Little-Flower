@@ -2,6 +2,8 @@
 #define GAME_H
 
 #include <iostream>
+#include <vector>
+#include <ctime>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -18,7 +20,17 @@ class Game {
         // event to capture user input
         sf::Event ev;
 
+        // mouse positions
+        sf::Vector2i mousePosition;
+
+        // game logic
+        int points;
+        float enemySpawnTimer;
+        float enemySpawnTimerMax;
+        unsigned int maxEnemies;
+
         // game objects
+        std::vector<sf::RectangleShape> enemies;
         sf::RectangleShape enemy;
 
         void initVariables();
@@ -33,8 +45,12 @@ class Game {
         const bool running() const;
 
         //functions
+        void spawnEnemy();
         void pollEvents();
+        void updateMousePositions();
+        void updateEnemies();
         void update();
+        void renderEnemies();
         void render();
 };
 
