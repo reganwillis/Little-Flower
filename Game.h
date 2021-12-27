@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -17,8 +18,12 @@ class Game {
         // event to capture user input
         sf::Event ev;
 
+        // game objects
+        sf::RectangleShape enemy;
+
         void initVariables();
         void initWindow();
+        void initEnemies();
     public:
         // constructors and deconstructors
         Game();

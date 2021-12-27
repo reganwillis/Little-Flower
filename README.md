@@ -6,6 +6,7 @@ See the [Game Design Document](https://www.notion.so/reganwillis/Little-Flower-G
 I used [this tutorial](https://code.visualstudio.com/docs/languages/cpp#_example-install-mingwx64) and [this tutorial](https://www.msys2.org/) to install a C++ compiler and add it to the path. I compiled the program with `g++ -Wall -c main.cpp` and ran it with `a.exe`.
 
 I downloaded [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/) for a simple graphics interface. Now the compilation and run instructions must include paths to the new library.
+TODO in future game: use OpenGL instead.
 
 ### Batch Script
 Use the command `run` in the windows command line to run the batch script. This will run the commands below
@@ -36,3 +37,4 @@ run new app:
 * [compiling a SFML program](https://www.sfml-dev.org/tutorials/2.1/start-linux.php#compiling-a-sfml-program)
 * [C++ & SFML - Simple 2D Games - GAME 1 / PART 1](https://www.youtube.com/watch?v=C06eGdy7C6k)
 * [C++ & SFML - Simple 2D Games - GAME 1 / PART 2](https://www.youtube.com/watch?v=kxb0GvBNOGU)
+* [C++ & SFML - Simple 2D Games - GAME 1 / PART 3](https://www.youtube.com/watch?v=LnMO84T7myM)
