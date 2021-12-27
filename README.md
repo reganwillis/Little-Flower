@@ -27,8 +27,12 @@ run new app:
     * [Solution: download SFML GCC instead of SFML Visual C++](https://stackoverflow.com/questions/48661676/sfml-undefined-reference-to-imp)
 * Error: The program can't start because sfml-graphics-2.dll is missing from your computer. Try reinstalling the program to fix this problem.
     * [Solution: Copy all dll files from main SFML > bin directory and paste them into your project folder.](https://stackoverflow.com/questions/29242013/sfml-2-1-and-codeblocks-error-sfml-graphics-2-dll-is-missing-from-your-computer/44126418)
+* Error: C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: main.o:main.cpp:(.text+0x18): undefined reference to `Game::Game()'
+    * looking for Game.h in the c++ folder instead of the current directory
+    * add new cpp file to g++ compilation
 
 ## Resources
 * [g++ cheatsheet](https://bytes.usc.edu/cs104/wiki/gcc/)
 * [compiling a SFML program](https://www.sfml-dev.org/tutorials/2.1/start-linux.php#compiling-a-sfml-program)
-* [C++ & SFML - Simple 2D Games](https://www.youtube.com/watch?v=C06eGdy7C6k)
+* [C++ & SFML - Simple 2D Games - GAME 1 / PART 1](https://www.youtube.com/watch?v=C06eGdy7C6k)
+* [C++ & SFML - Simple 2D Games - GAME 1 / PART 2](https://www.youtube.com/watch?v=kxb0GvBNOGU)

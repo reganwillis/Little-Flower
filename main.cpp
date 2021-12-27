@@ -1,39 +1,30 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Network.hpp>
+#include "Game.h"
 
-//using namespaces sf;
+/*
+TODO:
+* update and rendering
+* create shapes
+* move shapes
+* positions
+* getting mouse positions and inputs
+* getting keyboard inputs
+* removing shapes
+*/
 
 int main()
 {
-    std::cout << "Hello Game Dev" << std::endl;
+    // game engine class object
+    Game game;
 
-    sf::RenderWindow window(sf::VideoMode(640, 480), "Little Flower", sf::Style::Titlebar | sf::Style::Close);
-    //sf::Window window(sf::VideoMode(640, 480), "Little Flower", sf::Style::Default);
+    // game loop
+    while (game.running()) {
 
-    sf::Event ev;
-    while (window.isOpen()) {
-        //event polling
-        while(window.pollEvent(ev)) {
-            switch(ev.type) {
-                case sf::Event::Closed:
-                    window.close();
-                    break;
-                case sf::Event::KeyPressed:
-                    if(ev.key.code == sf::Keyboard::Escape)
-                        window.close();
-                    break;
-            }
-        }
+        // update
+        game.update();
 
-        //update
-
-        //render
-        window.clear(sf::Color::Blue);
-        window.display();
+        // render
+        game.render();
     }
     return 0;
 }
