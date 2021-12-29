@@ -6,9 +6,9 @@ void Game::initVariables() {
 
     // game logic
     this->points = 0;
-    this->enemySpawnTimerMax = 1000.f;
+    this->enemySpawnTimerMax = 10.f;
     this->enemySpawnTimer = this->enemySpawnTimerMax;
-    this->maxEnemies = 5;
+    this->maxEnemies = 10;
 }
 
 void Game::initWindow() {
@@ -20,11 +20,8 @@ void Game::initWindow() {
     this->window->setFramerateLimit(60);
 }
 
+// create an enemy and set its qualities
 void Game::initEnemies() {
-    // set position of enemy
-    this->enemy.setPosition(10.f, 10.f);
-
-    // set enemy qualities
     this->enemy.setSize(sf::Vector2f(100.f, 100.f));
     this->enemy.setScale(sf::Vector2f(0.5f, 0.5f));
     this->enemy.setFillColor(sf::Color::Cyan);
@@ -49,12 +46,11 @@ const bool Game::running() const {
     return this->window->isOpen();
 }
 
-// spawn enemy
+// spawn enemy and add to list of enemies
 void Game::spawnEnemy() {
-    // set random enemy position based on enemy size
+    // set random enemy position within window, take size into account
     this->enemy.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->enemy.getSize().x)), 0.f);
 
-    this->enemy.setFillColor(sf::Color::Cyan);
     this->enemies.push_back(this->enemy);
 }
 
@@ -79,7 +75,7 @@ void Game::pollEvents() {
 void Game::updateMousePositions() {
     // mouse position relative to window
     //std::cout << "mouse position: " << sf::Mouse::getPosition(*this->window).x << ", " << sf::Mouse::getPosition(*this->window).y << "\n";
-    this->mousePosition = sf::Mouse::getPosition(*this->window);
+    this->mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 }
 
 // update enemy spawn timer and calls spawnEnemy
@@ -97,8 +93,27 @@ void Game::updateEnemies() {
         }
     }
 
-    for (auto &e : this->enemies) {
-        e.move(0.f, 1.f);
+    for (size_t i = 0; i < this->enemies.size(); i++) {
+        bool deleted = false;
+
+        // move the enemies
+        this->enemies[i].move(0.f, 3.f);
+
+        // if enemy is clicked on, erase enemy and gain points
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            if (this->enemies[i].getGlobalBounds().contains(this->mousePosition)) {
+                deleted = true;
+                this->points += 10.f;
+            }
+        }
+
+        // if enemy reaches bottom of screen, erase
+        if (this->enemies[i].getPosition().y > this->window->getSize().y) {
+            deleted = true;
+        }
+
+        if (deleted)
+            this->enemies.erase(this->enemies.begin() + i);
     }
 }
 

@@ -20,8 +20,8 @@ class Game {
         // event to capture user input
         sf::Event ev;
 
-        // mouse positions
-        sf::Vector2i mousePosition;
+        // mouse positions in view
+        sf::Vector2f mousePosition;
 
         // game logic
         int points;
