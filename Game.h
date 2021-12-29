@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
+#include <sstream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -23,6 +24,12 @@ class Game {
         // mouse positions in view
         sf::Vector2f mousePosition;
 
+        // assets
+        sf::Font font;
+
+        // UI
+        sf::Text uiText;
+
         // game logic
         bool endGame;
         unsigned points;
@@ -38,6 +45,8 @@ class Game {
 
         void initVariables();
         void initWindow();
+        void initFonts();
+        void initText();
         void initEnemies();
     public:
         // constructors and deconstructors
@@ -52,9 +61,11 @@ class Game {
         void spawnEnemy();
         void pollEvents();
         void updateMousePositions();
+        void updateText();
         void updateEnemies();
         void update();
-        void renderEnemies();
+        void renderText(sf::RenderTarget& target);
+        void renderEnemies(sf::RenderTarget& target);
         void render();
 };
 

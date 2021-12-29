@@ -23,6 +23,17 @@ void Game::initWindow() {
     this->window->setFramerateLimit(60);
 }
 
+void Game::initFonts() {
+    this->font.loadFromFile("Fonts/Painterz.ttf");
+}
+
+void Game::initText() {
+    this->uiText.setFont(this->font);
+    this->uiText.setCharacterSize(24);
+    this->uiText.setFillColor(sf::Color::White);  // default
+    this->uiText.setString("no text to display");
+}
+
 // create an enemy and set its qualities
 void Game::initEnemies() {
     this->enemy.setSize(sf::Vector2f(100.f, 100.f));
@@ -36,6 +47,8 @@ void Game::initEnemies() {
 Game::Game() {
     this->initVariables();
     this->initWindow();
+    this->initFonts();
+    this->initText();
     this->initEnemies();
 }
 
@@ -49,11 +62,12 @@ const bool Game::running() const {
     return this->window->isOpen();
 }
 
+// return if game has ended
 const bool Game::getEndGame() const {
     return this->endGame;
 }
 
-// spawn enemy and add to list of enemies
+// spawn enemy and add it to list of enemies
 void Game::spawnEnemy() {
     // set random enemy position within window, take size into account
     this->enemy.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->enemy.getSize().x)), 0.f);
@@ -80,9 +94,14 @@ void Game::pollEvents() {
 }
 
 void Game::updateMousePositions() {
-    // mouse position relative to window
-    //std::cout << "mouse position: " << sf::Mouse::getPosition(*this->window).x << ", " << sf::Mouse::getPosition(*this->window).y << "\n";
+    // mouse position relative to view
     this->mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
+}
+
+void Game::updateText() {
+    std::stringstream stream;
+    stream << "Points: " << this->points << "\n" << "Health: " << this->health;
+    this->uiText.setString(stream.str());
 }
 
 // update enemy spawn timer, calls spawnEnemy, moves enemies, removes enemies
@@ -134,12 +153,6 @@ void Game::updateEnemies() {
     else {
         this->mouseHeld = false;
     }
-
-    // if enemy reaches bottom of screen, erase
-    //if (this->enemies[i].getPosition().y > this->window->getSize().y) {
-    //    deleted = true;
-    //}
-
 }
 
 void Game::update() {
@@ -147,6 +160,7 @@ void Game::update() {
 
     if (!this->endGame) {
         this->updateMousePositions();
+        this->updateText();
         this->updateEnemies();
     }
 
@@ -156,9 +170,13 @@ void Game::update() {
     }
 }
 
-void Game::renderEnemies() {
+void Game::renderText(sf::RenderTarget& target) {
+    target.draw(this->uiText);
+}
+
+void Game::renderEnemies(sf::RenderTarget& target) {
     for (auto &e : this->enemies) {
-        this->window->draw(e);
+        target.draw(e);
     }
 }
 
@@ -168,7 +186,8 @@ void Game::render() {
     this->window->clear();
 
     // draw objects
-    this->renderEnemies();
+    this->renderText(*this->window);
+    this->renderEnemies(*this->window);
 
     this->window->display();
 }
