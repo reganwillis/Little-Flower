@@ -24,10 +24,13 @@ class Game {
         sf::Vector2f mousePosition;
 
         // game logic
-        int points;
+        bool endGame;
+        unsigned points;
+        int health;
         float enemySpawnTimer;
         float enemySpawnTimerMax;
         unsigned int maxEnemies;
+        bool mouseHeld;
 
         // game objects
         std::vector<sf::RectangleShape> enemies;
@@ -43,6 +46,7 @@ class Game {
 
         // getters
         const bool running() const;
+        const bool getEndGame() const;
 
         //functions
         void spawnEnemy();

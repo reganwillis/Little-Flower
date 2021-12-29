@@ -5,10 +5,13 @@ void Game::initVariables() {
     this->window = nullptr;
 
     // game logic
+    this->endGame = false;
     this->points = 0;
+    this->health = 10;
     this->enemySpawnTimerMax = 10.f;
     this->enemySpawnTimer = this->enemySpawnTimerMax;
     this->maxEnemies = 10;
+    this->mouseHeld = false;
 }
 
 void Game::initWindow() {
@@ -46,6 +49,10 @@ const bool Game::running() const {
     return this->window->isOpen();
 }
 
+const bool Game::getEndGame() const {
+    return this->endGame;
+}
+
 // spawn enemy and add to list of enemies
 void Game::spawnEnemy() {
     // set random enemy position within window, take size into account
@@ -78,8 +85,9 @@ void Game::updateMousePositions() {
     this->mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 }
 
-// update enemy spawn timer and calls spawnEnemy
+// update enemy spawn timer, calls spawnEnemy, moves enemies, removes enemies
 void Game::updateEnemies() {
+    // spawn enemies according to timer
     if (this->enemies.size() < this->maxEnemies) {
         if (this->enemySpawnTimer >= enemySpawnTimerMax) {
             // spawn a new enemy
@@ -93,34 +101,59 @@ void Game::updateEnemies() {
         }
     }
 
+    // moving and updating enemies
     for (size_t i = 0; i < this->enemies.size(); i++) {
-        bool deleted = false;
+        //bool deleted = false;
 
         // move the enemies
-        this->enemies[i].move(0.f, 3.f);
+        this->enemies[i].move(0.f, 2.f);
 
-        // if enemy is clicked on, erase enemy and gain points
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            if (this->enemies[i].getGlobalBounds().contains(this->mousePosition)) {
-                deleted = true;
-                this->points += 10.f;
+        if (this->enemies[i].getPosition().y > this->window->getSize().y) {
+            this->enemies.erase(this->enemies.begin() + i);
+            this->health -= 1;
+        }
+    }
+
+    // if enemy is clicked on, erase enemy and gain points
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+
+        if (this->mouseHeld == false) {
+            this->mouseHeld = true;
+            bool deleted = false;
+
+            for (size_t i = 0; i < this->enemies.size() && deleted == false; i++) {
+                if (this->enemies[i].getGlobalBounds().contains(this->mousePosition)) {
+                    deleted = true;
+                    this->enemies.erase(this->enemies.begin() + i);
+                    this->points += 1;
+                    std::cout << this->points << "\n";
+                }
             }
         }
-
-        // if enemy reaches bottom of screen, erase
-        if (this->enemies[i].getPosition().y > this->window->getSize().y) {
-            deleted = true;
-        }
-
-        if (deleted)
-            this->enemies.erase(this->enemies.begin() + i);
     }
+    else {
+        this->mouseHeld = false;
+    }
+
+    // if enemy reaches bottom of screen, erase
+    //if (this->enemies[i].getPosition().y > this->window->getSize().y) {
+    //    deleted = true;
+    //}
+
 }
 
 void Game::update() {
     this->pollEvents();
-    this->updateMousePositions();
-    this->updateEnemies();
+
+    if (!this->endGame) {
+        this->updateMousePositions();
+        this->updateEnemies();
+    }
+
+    // end game if health is 0
+    if (this->health <= 0) {
+        this->endGame = true;
+    }
 }
 
 void Game::renderEnemies() {

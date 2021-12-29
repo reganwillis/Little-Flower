@@ -1,16 +1,5 @@
 #include "Game.h"
 
-/*
-TODO:
-* update and rendering
-* create shapes
-* move shapes
-* positions
-* getting mouse positions and inputs
-* getting keyboard inputs
-* removing shapes
-*/
-
 int main()
 {
     // random
@@ -20,7 +9,7 @@ int main()
     Game game;
 
     // game loop
-    while (game.running()) {
+    while (game.running() && !game.getEndGame()) {
 
         // update
         game.update();

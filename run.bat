@@ -5,8 +5,8 @@
 :: -Wall - turn on most warnings
 :: -c - output an object file
 :: -I<include path> - specify an include directory
-CALL g++ -Wall -c Game.h -IC:\SFML-gcc\SFML-2.5.1\include
 CALL g++ -Wall -c main.cpp -IC:\SFML-gcc\SFML-2.5.1\include
+CALL g++ -Wall -c Game.h -IC:\SFML-gcc\SFML-2.5.1\include
 CALL g++ -Wall -c Game.cpp -IC:\SFML-gcc\SFML-2.5.1\include
 
 :: Link modules into single executable

@@ -40,3 +40,4 @@ run new app:
 * [C++ & SFML - Simple 2D Games - GAME 1 / PART 3](https://www.youtube.com/watch?v=LnMO84T7myM)
 * [C++ & SFML - Simple 2D Games - GAME 1 / PART 4](https://www.youtube.com/watch?v=Y4fbvFjtVig)
 * [C++ & SFML - Simple 2D Games - GAME 1 / PART 5](https://www.youtube.com/watch?v=Sil75qOxCW0)
+* [C++ & SFML - Simple 2D Games - GAME 1 / PART 6](https://www.youtube.com/watch?v=K8pMdCJtdCY)
