@@ -41,7 +41,7 @@ void Game::initFlower() {
     this->flower.setFillColor(sf::Color::Yellow);
     //this->enemy.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->enemy.getSize().x)), 0.f);
     //this->window->getSize().x - this->enemy.getSize().x
-    this->flower.setPosition((this->window->getSize().x / 2) - this->flower.getSize().x, this->window->getSize().y - this->flower.getSize().y);
+    this->flower.setPosition((this->window->getSize().x / 2) - (this->flower.getSize().x / 2), this->window->getSize().y - this->flower.getSize().y);
 }
 
 // create an enemy and set its qualities
@@ -157,8 +157,9 @@ void Game::updateFlower() {
             // grow flower
             if(this->flower.getGlobalBounds().contains(this->mousePosition)) {
                 this->growth += 10;
-                //this->flower.setSize(sf::Vector2f(this->flower.getSize().x, this->flower.getSize().y + 10));
+                this->flower.setSize(sf::Vector2f(this->flower.getSize().x, this->flower.getSize().y + 10));
                 //sf::Vector2f currentSize = this->flower.getSize();
+                this->flower.setPosition(this->flower.getPosition().x, this->flower.getPosition().y - 10);
             }
         }
     }
@@ -171,7 +172,8 @@ void Game::updateFlower() {
         if (this->enemies[i].getGlobalBounds().intersects(this->flower.getGlobalBounds())) {
             this->enemies.erase(this->enemies.begin() + i);
             this->growth -= 5;
-            //this->flower.setSize(sf::Vector2f(this->flower.getSize().x, this->flower.getSize().y + 5));
+            this->flower.setSize(sf::Vector2f(this->flower.getSize().x, this->flower.getSize().y - 5));
+            this->flower.setPosition(this->flower.getPosition().x, this->flower.getPosition().y + 5);
         }
     }
 }
