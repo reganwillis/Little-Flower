@@ -17,11 +17,16 @@ void Game::initVariables() {
 
 void Game::initWindow() {
     // window size (TODO: make window size dynamic to monitor size)
-    this->videoMode.height = 600;
+    this->videoMode.height = 800;
     this->videoMode.width = 800;
 
     this->window = new sf::RenderWindow(this->videoMode, "Little Flower", sf::Style::Titlebar | sf::Style::Close);
     this->window->setFramerateLimit(60);
+
+    // load background
+    // TODO: put this somewhere else
+    this->backgroundImg.loadFromFile("Images/background.jpg");
+    this->background.setTexture(this->backgroundImg);
 }
 
 void Game::initFonts() {
@@ -273,8 +278,9 @@ void Game::renderEnemies(sf::RenderTarget& target) {
 
 // renders game objects
 void Game::render() {
-    // clear window
+    // clear window and draw background
     this->window->clear();
+    this->window->draw(this->background);
 
     // draw objects
     this->renderText(*this->window);

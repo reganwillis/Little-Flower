@@ -45,6 +45,8 @@ class Game {
         std::vector<sf::RectangleShape> enemies;
         sf::RectangleShape enemy;
         sf::RectangleShape flower;
+        sf::Texture backgroundImg;
+        sf::Sprite background;
 
         void initVariables();
         void initWindow();
