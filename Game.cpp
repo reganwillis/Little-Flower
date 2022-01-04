@@ -6,6 +6,7 @@ void Game::initVariables() {
 
     // game logic
     this->endGame = false;
+    this->growth = 0;
     this->points = 0;
     this->health = 10;
     this->enemySpawnTimerMax = 10.f;
@@ -34,11 +35,20 @@ void Game::initText() {
     this->uiText.setString("no text to display");
 }
 
+void Game::initFlower() {
+    this->flower.setSize(sf::Vector2f(50.f, 50.f));
+    //this->enemy.setScale(sf::Vector2f(0.5f, 0.5f));  // needed?
+    this->flower.setFillColor(sf::Color::Yellow);
+    //this->enemy.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->enemy.getSize().x)), 0.f);
+    //this->window->getSize().x - this->enemy.getSize().x
+    this->flower.setPosition((this->window->getSize().x / 2) - this->flower.getSize().x, this->window->getSize().y - this->flower.getSize().y);
+}
+
 // create an enemy and set its qualities
 void Game::initEnemies() {
     this->enemy.setSize(sf::Vector2f(100.f, 100.f));
     this->enemy.setScale(sf::Vector2f(0.5f, 0.5f));
-    this->enemy.setFillColor(sf::Color::Yellow);  // default enemy color
+    this->enemy.setFillColor(sf::Color::Yellow);  // default enemy
 }
 
 // constructor
@@ -47,6 +57,7 @@ Game::Game() {
     this->initWindow();
     this->initFonts();
     this->initText();
+    this->initFlower();
     this->initEnemies();
 }
 
@@ -126,8 +137,43 @@ void Game::updateMousePositions() {
 
 void Game::updateText() {
     std::stringstream stream;
-    stream << "Points: " << this->points << "\n" << "Health: " << this->health;
+    stream << "Points: " << this->points << "\nHealth: " << this->health << "\nGrowth: " << this->growth;
     this->uiText.setString(stream.str());
+}
+
+void Game::updateFlower() {
+    // TODO: end game if flower is fully grown
+    // debug: print out once game would end
+    //if (this->growth == 100) {
+        //this->endGame = true;
+        //std::cout << "little flower fully grown";
+    //}
+    // check left mouse button is not held
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+
+        if (this->mouseHeld == false) {
+            this->mouseHeld = true;
+
+            // grow flower
+            if(this->flower.getGlobalBounds().contains(this->mousePosition)) {
+                this->growth += 10;
+                //this->flower.setSize(sf::Vector2f(this->flower.getSize().x, this->flower.getSize().y + 10));
+                //sf::Vector2f currentSize = this->flower.getSize();
+            }
+        }
+    }
+    else {
+        this->mouseHeld = false;
+    }
+
+    // destroy flower (with enemies)
+    for (size_t i = 0; i < this->enemies.size(); i++) {
+        if (this->enemies[i].getGlobalBounds().intersects(this->flower.getGlobalBounds())) {
+            this->enemies.erase(this->enemies.begin() + i);
+            this->growth -= 5;
+            //this->flower.setSize(sf::Vector2f(this->flower.getSize().x, this->flower.getSize().y + 5));
+        }
+    }
 }
 
 // update enemy spawn timer, calls spawnEnemy, moves enemies, removes enemies
@@ -197,17 +243,24 @@ void Game::update() {
     if (!this->endGame) {
         this->updateMousePositions();
         this->updateText();
+        this->updateFlower();
         this->updateEnemies();
     }
 
-    // end game if health is 0
-    if (this->health <= 0) {
-        this->endGame = true;
-    }
+    // TODO: end game if health is 0
+    // debug: print out once game would end
+    //if (this->health == 0) {
+        //this->endGame = true;
+        //std::cout << "health hit zero";
+    //}
 }
 
 void Game::renderText(sf::RenderTarget& target) {
     target.draw(this->uiText);
+}
+
+void Game::renderFlower(sf::RenderTarget& target) {
+    target.draw(this->flower);
 }
 
 void Game::renderEnemies(sf::RenderTarget& target) {
@@ -223,6 +276,7 @@ void Game::render() {
 
     // draw objects
     this->renderText(*this->window);
+    this->renderFlower(*this->window);
     this->renderEnemies(*this->window);
 
     this->window->display();

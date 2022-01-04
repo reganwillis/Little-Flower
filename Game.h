@@ -32,6 +32,7 @@ class Game {
 
         // game logic
         bool endGame;
+        int growth;
         unsigned points;
         int health;
         float enemySpawnTimer;
@@ -40,13 +41,16 @@ class Game {
         bool mouseHeld;
 
         // game objects
+        // TODO: use textures instead of game objects
         std::vector<sf::RectangleShape> enemies;
         sf::RectangleShape enemy;
+        sf::RectangleShape flower;
 
         void initVariables();
         void initWindow();
         void initFonts();
         void initText();
+        void initFlower();
         void initEnemies();
     public:
         // constructors and deconstructors
@@ -62,9 +66,11 @@ class Game {
         void pollEvents();
         void updateMousePositions();
         void updateText();
+        void updateFlower();
         void updateEnemies();
         void update();
         void renderText(sf::RenderTarget& target);
+        void renderFlower(sf::RenderTarget& target);
         void renderEnemies(sf::RenderTarget& target);
         void render();
 };

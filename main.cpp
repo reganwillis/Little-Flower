@@ -8,6 +8,7 @@ int main()
     // game engine class object
     Game game;
 
+    // TODO: loading screen
     // game loop
     while (game.running() && !game.getEndGame()) {
 
