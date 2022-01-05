@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Environment.h"
 
 void Game::initVariables() {
     // init window as null
@@ -6,7 +7,7 @@ void Game::initVariables() {
 
     // game logic
     this->endGame = false;
-    this->growth = 0;
+    this->growth = 50;
     this->points = 0;
     this->health = 10;
     this->enemySpawnTimerMax = 10.f;
@@ -22,11 +23,12 @@ void Game::initWindow() {
 
     this->window = new sf::RenderWindow(this->videoMode, "Little Flower", sf::Style::Titlebar | sf::Style::Close);
     this->window->setFramerateLimit(60);
+}
 
-    // load background
-    // TODO: put this somewhere else
-    this->backgroundImg.loadFromFile("Images/background.jpg");
-    this->background.setTexture(this->backgroundImg);
+void Game::initTextures() {
+    //this->backgroundImg.loadFromFile("Images/background.jpg");
+    this->sunBackgroundImg.loadFromFile("Images/background.jpg");
+    this->rainBackgroundImg.loadFromFile("Images/stormy-background.jpg");
 }
 
 void Game::initFonts() {
@@ -60,6 +62,7 @@ void Game::initEnemies() {
 Game::Game() {
     this->initVariables();
     this->initWindow();
+    this->initTextures();
     this->initFonts();
     this->initText();
     this->initFlower();
@@ -144,6 +147,27 @@ void Game::updateText() {
     std::stringstream stream;
     stream << "Points: " << this->points << "\nHealth: " << this->health << "\nGrowth: " << this->growth;
     this->uiText.setString(stream.str());
+}
+
+void Game::updateEnv() {
+    // default
+    //this->background.setTexture(this->sunBackgroundImg);
+
+    if (this->env.getSun()) {
+        // load background
+        // TODO: put this somewhere else
+        //this->backgroundImg.loadFromFile("Images/background.jpg");
+        this->background.setTexture(this->sunBackgroundImg);
+    } else {
+        this->background.setTexture(this->rainBackgroundImg);
+    }
+
+    //if (this->env.getRain())
+    // test
+    //if (this->env.getRain())
+    //    std::cout << "raining";
+    //else
+    //    std::cout << "dry";
 }
 
 void Game::updateFlower() {
@@ -250,6 +274,7 @@ void Game::update() {
     if (!this->endGame) {
         this->updateMousePositions();
         this->updateText();
+        this->updateEnv();
         this->updateFlower();
         this->updateEnemies();
     }
@@ -266,6 +291,11 @@ void Game::renderText(sf::RenderTarget& target) {
     target.draw(this->uiText);
 }
 
+void Game::renderEnv(sf::RenderTarget& target) {
+    this->window->draw(this->background);
+    //target.draw(this->background);
+}
+
 void Game::renderFlower(sf::RenderTarget& target) {
     target.draw(this->flower);
 }
@@ -280,9 +310,9 @@ void Game::renderEnemies(sf::RenderTarget& target) {
 void Game::render() {
     // clear window and draw background
     this->window->clear();
-    this->window->draw(this->background);
 
     // draw objects
+    this->renderEnv(*this->window);
     this->renderText(*this->window);
     this->renderFlower(*this->window);
     this->renderEnemies(*this->window);

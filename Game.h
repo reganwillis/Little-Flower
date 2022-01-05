@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "Environment.h"
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -45,11 +46,20 @@ class Game {
         std::vector<sf::RectangleShape> enemies;
         sf::RectangleShape enemy;
         sf::RectangleShape flower;
-        sf::Texture backgroundImg;
+        //sf::Texture backgroundImg;
         sf::Sprite background;
 
+        // environment
+        Environment env;
+        sf::Texture sunBackgroundImg;
+        //sf::Sprite sunBackground;
+        sf::Texture rainBackgroundImg;
+        //sf::Sprite rainBackground;
+
+        // functions
         void initVariables();
         void initWindow();
+        void initTextures();
         void initFonts();
         void initText();
         void initFlower();
@@ -64,14 +74,17 @@ class Game {
         const bool getEndGame() const;
 
         //functions
+        //void controlEnv();
         void spawnEnemy();
         void pollEvents();
         void updateMousePositions();
         void updateText();
+        void updateEnv();
         void updateFlower();
         void updateEnemies();
         void update();
         void renderText(sf::RenderTarget& target);
+        void renderEnv(sf::RenderTarget& target);
         void renderFlower(sf::RenderTarget& target);
         void renderEnemies(sf::RenderTarget& target);
         void render();
