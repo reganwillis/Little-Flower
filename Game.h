@@ -31,6 +31,9 @@ class Game {
         // UI
         sf::Text uiText;
 
+        // environment
+        Environment env;
+
         // game logic
         bool endGame;
         int growth;
@@ -42,19 +45,12 @@ class Game {
         bool mouseHeld;
 
         // game objects
-        // TODO: use textures instead of game objects
         std::vector<sf::RectangleShape> enemies;
         sf::RectangleShape enemy;
         sf::RectangleShape flower;
-        //sf::Texture backgroundImg;
-        sf::Sprite background;
-
-        // environment
-        Environment env;
         sf::Texture sunBackgroundImg;
-        //sf::Sprite sunBackground;
         sf::Texture rainBackgroundImg;
-        //sf::Sprite rainBackground;
+        sf::Sprite background;
 
         // functions
         void initVariables();
@@ -74,10 +70,10 @@ class Game {
         const bool getEndGame() const;
 
         //functions
-        //void controlEnv();
         void spawnEnemy();
         void pollEvents();
         void updateMousePositions();
+        void mouseClicks();
         void updateText();
         void updateEnv();
         void updateFlower();

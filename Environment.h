@@ -1,8 +1,6 @@
 #ifndef ENVIRONMENT_H
 #define ENVIRONMENT_H
 
-//#include "Game.h"
-
 class Environment {
     private:
         //environment logic
@@ -13,8 +11,6 @@ class Environment {
         Weather weather;
         // TODO: day/night timer
         bool daytime;
-        
-        //environment objects
 
         // functions
         void initWeather();
@@ -28,8 +24,6 @@ class Environment {
         const bool getSun() const;
         const bool getRain() const;
         const bool isDaytime() const;
-
-        // functions
 };
 
 #endif
