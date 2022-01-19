@@ -1,5 +1,3 @@
-// keep track of state of little flower (growth)
-// TODO: keep track of state of puzzles
 #ifndef LITTLE_FLOWER_H
 #define LITTLE_FLOWER_H
 
@@ -12,19 +10,13 @@
 #include <iostream>
 #include <string>
 
-// TODO:
-// public: get sf texture matching state
-// private: set sf texture according to current_state
-// public: get sf::Text of text matching state
-// private: set sf::Text of text according to current_state
-// where to initialize text?
-
-
+/*
+This class keeps track of the state of Little Flower.
+*/
 class LittleFlower {
     private:
         // vars
-        std::array<int, 4> possible_states;
-        int current_state;
+        int current_state;  // 0, 1, 2, or 3
 
         // little flower stage textures
         sf::Texture current_texture;
@@ -50,19 +42,16 @@ class LittleFlower {
         virtual ~LittleFlower();
 
         // functions
-        void updateState();
         void updateTexture();
         void updateTextString();
 
         // getters
-        const std::array<int, 4> getPossibleStates() const;  // needed??
-        const int getState() const;  // return actual state
-        // implementation - loop through possible states and act accordingly
+        const int getState() const;
         sf::Texture& getTexture();
         std::string getTextString();
 
         // setters
-        void setState(int state);  // accepts member of possible_states array
+        void setState(int state);
 };
 
 #endif

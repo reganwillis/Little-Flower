@@ -16,7 +16,7 @@
 /* game engine class */
 class Game {
     private:
-        // vars
+        // game logic vars
         bool endGame;
         bool mouseHeld;
 
@@ -24,40 +24,28 @@ class Game {
         sf::RenderWindow* window;
         sf::VideoMode videoMode;
 
+        // text
+        sf::Font font;
+        sf::Text littleFlowerText;
+
+        // sprites
+        sf::Sprite flower;
+
         // event to capture user input
         sf::Event ev;
 
         // mouse positions in view
         sf::Vector2f mousePosition;
 
-        // assets
-        sf::Font font;
-
-        // UI
-        sf::Text uiText;
-        sf::Text littleFlowerText;
-
         // little flower (state)
         LittleFlower little_flower;
-
-        // environment
-        Environment env;
-
-        // game objects
-        //sf::RectangleShape flower;
-        sf::Texture sunBackgroundImg;
-        sf::Texture rainBackgroundImg;
-        sf::Sprite background;
-        sf::Texture littleFlowerImg;
-        sf::Sprite flower;
 
         // functions
         void initVariables();
         void initWindow();
-        void initTextures();
         void initFonts();
         void initText();
-        void initFlower();
+        void initSprites();
     public:
         // constructors and deconstructors
         Game();
@@ -71,14 +59,12 @@ class Game {
         void pollEvents();
         void updateMousePositions();
         void mouseClicks();
-        void trackProgress();
         void updateText();
-        void updateEnv();
-        void updateFlower();
+        void updateSprites();
+        void updateLittleFlower();
         void update();
         void renderText(sf::RenderTarget& target);
-        void renderEnv(sf::RenderTarget& target);
-        void renderFlower(sf::RenderTarget& target);
+        void renderSprites(sf::RenderTarget& target);
         void render();
 };
 

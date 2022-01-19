@@ -1,9 +1,7 @@
-// LITTLE FLOWER CPP
 #include "LittleFlower.h"
 
 void LittleFlower::initState() {
-    this->possible_states = {0, 1, 2, 3};
-    setState(this->possible_states[0]);
+    setState(0);
 }
 
 void LittleFlower::initTextures() {
@@ -28,56 +26,38 @@ LittleFlower::LittleFlower() {
 }
 
 LittleFlower::~LittleFlower() {
-    // TODO: is this needed
-    setState(this->possible_states[0]);
+    setState(0);
 }
 
-void LittleFlower::updateState() {}
-
 void LittleFlower::updateTexture() {
-    if (this->current_state == this->possible_states[0]) {
-        //std::cout << "updating to texture 0.\n";
+    if (this->current_state == 0)
         this->current_texture = this->little_flower_stage_0_texture;
-    }
-    else if (this->current_state == this->possible_states[1]) {
-        //std::cout << "updating to texture 1.\n";
+    else if (this->current_state == 1)
         this->current_texture = this->little_flower_stage_1_texture;
-    }
-    else if (this->current_state == this->possible_states[2]) {
-        //std::cout << "updating to texture 2.\n";
+    else if (this->current_state == 2)
         this->current_texture = this->little_flower_stage_2_texture;
-    }
-    else if (this->current_state == this->possible_states[3]) {
-        //std::cout << "updating to texture 3.\n";
+    else if (this->current_state == 3)
         this->current_texture = this->little_flower_stage_3_texture;
-    }
-    else {
+    else
         std::cout << "ERROR: texture update logic failure.\n";
-    }
 }
 
 void LittleFlower::updateTextString() {
-    if (this->current_state == this->possible_states[0]) {
+    if (this->current_state == 0) {
         this->current_text = this->state_0;
     }
-    else if (this->current_state == this->possible_states[1]) {
+    else if (this->current_state == 1) {
         this->current_text = this->state_1;
     }
-    else if (this->current_state == this->possible_states[2]) {
+    else if (this->current_state == 2) {
         this->current_text = this->state_2;
     }
-    else if (this->current_state == this->possible_states[3]) {
+    else if (this->current_state == 3) {
         this->current_text = this->state_3;
     }
     else {
         std::cout << "ERROR: texture update logic failure.\n";
     }
-}
-
-const std::array<int, 4> LittleFlower::getPossibleStates() const {
-    //int *ps = possible_states;
-    //return ps;
-    return this->possible_states;
 }
 
 const int LittleFlower::getState() const {
