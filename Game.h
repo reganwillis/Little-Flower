@@ -39,18 +39,15 @@ class Game {
         int growth;
         unsigned points;
         int health;
-        float enemySpawnTimer;
-        float enemySpawnTimerMax;
-        unsigned int maxEnemies;
         bool mouseHeld;
 
         // game objects
-        std::vector<sf::RectangleShape> enemies;
-        sf::RectangleShape enemy;
-        sf::RectangleShape flower;
+        //sf::RectangleShape flower;
         sf::Texture sunBackgroundImg;
         sf::Texture rainBackgroundImg;
         sf::Sprite background;
+        sf::Texture littleFlowerImg;
+        sf::Sprite flower;
 
         // functions
         void initVariables();
@@ -59,7 +56,6 @@ class Game {
         void initFonts();
         void initText();
         void initFlower();
-        void initEnemies();
     public:
         // constructors and deconstructors
         Game();
@@ -70,19 +66,16 @@ class Game {
         const bool getEndGame() const;
 
         //functions
-        void spawnEnemy();
         void pollEvents();
         void updateMousePositions();
         void mouseClicks();
         void updateText();
         void updateEnv();
         void updateFlower();
-        void updateEnemies();
         void update();
         void renderText(sf::RenderTarget& target);
         void renderEnv(sf::RenderTarget& target);
         void renderFlower(sf::RenderTarget& target);
-        void renderEnemies(sf::RenderTarget& target);
         void render();
 };
 

@@ -1,6 +1,8 @@
 #ifndef ENVIRONMENT_H
 #define ENVIRONMENT_H
 
+// TODO: find use for this class or remove it
+
 class Environment {
     private:
         //environment logic
