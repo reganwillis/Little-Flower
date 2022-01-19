@@ -34,6 +34,7 @@ run new app:
 * Error: C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: main.o:main.cpp:(.text+0x18): undefined reference to `Game::Game()'
     * looking for Game.h in the c++ folder instead of the current directory
     * add new cpp file to g++ compilation
+    * add new output file (.o) to linking g++ command
 * Error: invalid use of 'this' in non-member function
     * [Solution: declare cpp functions with class name in front of function name](https://stackoverflow.com/questions/9047671/invalid-use-of-this-in-non-member-function)
 

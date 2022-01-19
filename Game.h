@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "Environment.h"
+#include "LittleFlower.h"
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -31,12 +32,28 @@ class Game {
         // UI
         sf::Text uiText;
 
+        // little flower (state)
+        LittleFlower little_flower;
+
         // environment
         Environment env;
 
+        //progress vars
+        /*struct Growth {
+            bool one;
+            bool two;
+            bool three;
+            bool four;
+        } growth;
+        struct Puzzle {
+            bool one;
+            bool two;
+            bool three;
+        } puzzle;*/
+
         // game logic
         bool endGame;
-        int growth;
+        //int growth;
         unsigned points;
         int health;
         bool mouseHeld;
@@ -69,6 +86,7 @@ class Game {
         void pollEvents();
         void updateMousePositions();
         void mouseClicks();
+        void trackProgress();
         void updateText();
         void updateEnv();
         void updateFlower();
