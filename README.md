@@ -37,6 +37,8 @@ run new app:
     * add new output file (.o) to linking g++ command
 * Error: invalid use of 'this' in non-member function
     * [Solution: declare cpp functions with class name in front of function name](https://stackoverflow.com/questions/9047671/invalid-use-of-this-in-non-member-function)
+* Texture "white square problem"
+    * [pass texture by reference](https://stackoverflow.com/questions/19546372/c-having-trouble-returning-sftexture)
 
 ## Resources
 * [g++ cheatsheet](https://bytes.usc.edu/cs104/wiki/gcc/)

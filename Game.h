@@ -16,6 +16,10 @@
 /* game engine class */
 class Game {
     private:
+        // vars
+        bool endGame;
+        bool mouseHeld;
+
         // window variables
         sf::RenderWindow* window;
         sf::VideoMode videoMode;
@@ -31,32 +35,13 @@ class Game {
 
         // UI
         sf::Text uiText;
+        sf::Text littleFlowerText;
 
         // little flower (state)
         LittleFlower little_flower;
 
         // environment
         Environment env;
-
-        //progress vars
-        /*struct Growth {
-            bool one;
-            bool two;
-            bool three;
-            bool four;
-        } growth;
-        struct Puzzle {
-            bool one;
-            bool two;
-            bool three;
-        } puzzle;*/
-
-        // game logic
-        bool endGame;
-        //int growth;
-        unsigned points;
-        int health;
-        bool mouseHeld;
 
         // game objects
         //sf::RectangleShape flower;

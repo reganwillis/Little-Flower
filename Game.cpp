@@ -2,17 +2,17 @@
 #include "Environment.h"
 #include "LittleFlower.h"
 
-// TODO: add the concept of STATE
 
 void Game::initVariables() {
+    // TODO: is a whole function necessary for this
     // game logic
     this->endGame = false;
-    //this->growth = 50;
     this->mouseHeld = false;
 }
 
 void Game::initWindow() {
     // window size (TODO: make window size dynamic to monitor size)
+    // TODO: make content iPhone size and sides black
     this->videoMode.height = 800;
     this->videoMode.width = 800;
 
@@ -23,7 +23,8 @@ void Game::initWindow() {
 void Game::initTextures() {
     this->sunBackgroundImg.loadFromFile("Images/background.jpg");
     this->rainBackgroundImg.loadFromFile("Images/stormy-background.jpg");
-    this->littleFlowerImg.loadFromFile("Images/little-flower.png");
+    // TODO: remove and handle through little flower class
+    //this->littleFlowerImg.loadFromFile("Images/little-flower-stage-3.png");
 }
 
 void Game::initFonts() {
@@ -31,14 +32,26 @@ void Game::initFonts() {
 }
 
 void Game::initText() {
-    this->uiText.setFont(this->font);
-    this->uiText.setCharacterSize(24);
-    this->uiText.setFillColor(sf::Color::White);  // default
-    this->uiText.setString("text failed to render");
+    //this->uiText.setFont(this->font);
+    //this->uiText.setCharacterSize(24);
+    //this->uiText.setFillColor(sf::Color::White);  // default
+    //this->uiText.setString("text failed to render");
+
+    this->littleFlowerText.setFont(this->font);
+    this->littleFlowerText.setCharacterSize(24);
+    this->littleFlowerText.setFillColor(sf::Color::White);  // default
+    this->littleFlowerText.setString("text failed to render");
 }
 
+// TODO: rename
+// initialize flower sprite - assign texture and set position
 void Game::initFlower() {
-    this->flower.setTexture(this->littleFlowerImg);
+    //this->flower.setTexture(this->littleFlowerImg);
+    this->flower.setTexture(this->little_flower.getTexture());
+    //this->flower.setTexture(this->little_flower.getTexture());
+    //sf::Texture t;
+    //t.loadFromFile("Images/little-flower-stage-3.png");
+    //this->flower.setTexture(t);
     //this->flower.setSize(sf::Vector2f(50.f, 50.f));
     //this->flower.setFillColor(sf::Color::Yellow);
     /*this->flower.setPosition(
@@ -52,6 +65,9 @@ void Game::initFlower() {
         this->window->getSize().y - this->flower.getGlobalBounds().height
     );
 }
+
+
+
 
 // constructor
 Game::Game() {
@@ -78,7 +94,7 @@ const bool Game::getEndGame() const {
     return this->endGame;
 }
 
-// event polling (control exiting game)
+// event polling for game exit
 void Game::pollEvents() {
     while(this->window->pollEvent(this->ev)) {
 
@@ -101,8 +117,13 @@ void Game::updateMousePositions() {
     this->mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 }
 
+
+
+
 void Game::mouseClicks() {
     // check left mouse button is not held
+    // TODO: split this function up
+        // checking for mouse hold might not be relevant anymore 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 
         if (this->mouseHeld == false) {
@@ -114,15 +135,6 @@ void Game::mouseClicks() {
 
                 if (curr_state <= 2)
                     this->little_flower.setState(curr_state + 1);
-
-                //if (curr_state == 3)
-
-                //stream << "Little Flower grew bigger!";
-                //this->uiText.setString(stream.str());
-                //this->growth += 10;
-                //this->flower.setSize(sf::Vector2f(this->flower.getSize().x, this->flower.getSize().y + 10));
-                //this->flower.setScale(sf::Vector2f(this->flower.getGlobalBounds().width, this->flower.getGlobalBounds().height + 10));
-                //this->flower.setPosition(this->flower.getPosition().x, this->flower.getPosition().y - 10);
             }
         }
     }
@@ -131,7 +143,11 @@ void Game::mouseClicks() {
     }
 }
 
+// TODO: rename to track little flower state
+    // update little flower?
 void Game::trackProgress() {
+    // TODO: reorganize, move more into little flower class
+    /*
     std::array<int, 4> possible_states = little_flower.getPossibleStates();
 
     //for (int i = 0; i < possible_states.size() ++i) {}
@@ -149,36 +165,21 @@ void Game::trackProgress() {
     }
     else {
         std::cout << "ERROR: state logic failure.\n";
-    }
-
-    // init growth and puzzle
-    // TODO: separate into new function
-    /*this->growth.one = true;
-    this->growth.two = false;
-    this->growth.three = false;
-    this->growth.four = false;
-    this->puzzle.one = true;
-    this->puzzle.two = false;
-    this->puzzle.three = false;
-
-    std::stringstream stream;
-
-    // start of game (growth stage one)
-    if (growth.one == true && puzzle.one == true) {
-        stream << "Little Flower is a small sapling in the dark.\nClick on Little Flower to make it grow.";
-    }
-
-
-    this->uiText.setString(stream.str());*/
+    }*/
 }
 
+// TODO: rename to be UI specific?
 void Game::updateText() {
+    //std::stringstream stream;
+    //stream << "test";
+    //this->uiText.setString(stream.str());
+
     std::stringstream stream;
-    //stream << "Growth: " << this->growth;
-    stream << "test";
-    this->uiText.setString(stream.str());
+    stream << this->little_flower.getTextString();
+    this->littleFlowerText.setString(stream.str());
 }
 
+// TODO: delete
 void Game::updateEnv() {
     if (this->env.getSun()) {
         this->background.setTexture(this->sunBackgroundImg);
@@ -188,6 +189,12 @@ void Game::updateEnv() {
 }
 
 void Game::updateFlower() {
+    this->little_flower.updateTexture();
+    this->little_flower.updateTextString();
+
+    // reflect updates in sprite
+    this->flower.setTexture(this->little_flower.getTexture());
+
     // TODO: end game if flower is fully grown
     //if (this->growth >= 100)
         //this->endGame = true;
@@ -210,14 +217,18 @@ void Game::update() {
         this->updateMousePositions();
         this->mouseClicks();
         this->trackProgress();
-        //this->updateText();
+        this->updateText();
         this->updateEnv();
-        //this->updateFlower();
+        this->updateFlower();
     }
 }
 
+
+
+
 void Game::renderText(sf::RenderTarget& target) {
-    target.draw(this->uiText);
+    //target.draw(this->uiText);
+    target.draw(this->littleFlowerText);
 }
 
 void Game::renderEnv(sf::RenderTarget& target) {
