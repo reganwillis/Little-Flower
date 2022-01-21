@@ -10,10 +10,14 @@ void Game::initVariables() {
 
 // initialize game window
 void Game::initWindow() {
+    // 16:9 Ratio = 1920 x 1080 pixels
+    // 720p = 1280 x 720
+    // 16:9 aspect ratio resolutions: 1024×576, 1152×648, 1280×720, 1366×768, 1600×900, 1920×1080, 2560×1440 and 3840×2160.
+    // 320x180, 640x360
     // window size (TODO: make window size dynamic to monitor size)
     // TODO: make content iPhone size and sides black
-    this->videoMode.height = 800;
-    this->videoMode.width = 800;
+    this->videoMode.height = 640;
+    this->videoMode.width = 360;
 
     this->window = new sf::RenderWindow(this->videoMode, "Little Flower", sf::Style::Titlebar | sf::Style::Close);
     this->window->setFramerateLimit(60);
@@ -146,7 +150,7 @@ void Game::renderSprites(sf::RenderTarget& target) {
 // renders game objects
 void Game::render() {
     // clear window and draw background
-    this->window->clear();
+    this->window->clear(sf::Color::White);
 
     // draw objects
     this->renderText(*this->window);

@@ -1,10 +1,13 @@
+#include "CreateFlower.h"
 #include "Game.h"
-#include "Environment.h"
 
 int main()
 {
     // random
     srand(static_cast<unsigned>(time(NULL)));
+
+    // get random flower (rarity & colors)
+    CreateFlower createFlower;
 
     // game engine class object
     Game game;

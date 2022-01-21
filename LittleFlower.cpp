@@ -5,10 +5,10 @@ void LittleFlower::initState() {
 }
 
 void LittleFlower::initTextures() {
-    this->little_flower_stage_0_texture.loadFromFile("Images/little-flower-stage-0.jpg");
-    this->little_flower_stage_1_texture.loadFromFile("Images/little-flower-stage-1.jpg");
-    this->little_flower_stage_2_texture.loadFromFile("Images/little-flower-stage-2.jpg");
-    this->little_flower_stage_3_texture.loadFromFile("Images/little-flower-stage-3.jpg");
+    this->little_flower_stage_0_texture.loadFromFile("Output/little-flower-stage-0.png");
+    this->little_flower_stage_1_texture.loadFromFile("Output/little-flower-stage-1.png");
+    this->little_flower_stage_2_texture.loadFromFile("Output/little-flower-stage-2.png");
+    this->little_flower_stage_3_texture.loadFromFile("Output/little-flower-stage-3.png");
     this->current_texture = this->little_flower_stage_0_texture;
 }
 
