@@ -1,10 +1,13 @@
 #include "CreateFlower.h"
 #include "Game.h"
+#include <random>
 
 int main()
 {
     // random
-    srand(static_cast<unsigned>(time(NULL)));
+    // https://docs.microsoft.com/en-us/cpp/standard-library/random-device-class?redirectedfrom=MSDN&view=msvc-170
+    std::random_device gen;
+    std::srand(gen());
 
     // get random flower (rarity & colors)
     CreateFlower createFlower;

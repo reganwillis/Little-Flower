@@ -1,4 +1,6 @@
 #include "CreateFlower.h"
+//#include <type_traits>
+#include <tr1/memory>
 
 // define basic color palette (must match input image palette)
 void CreateFlower::initBasicPalette() {
