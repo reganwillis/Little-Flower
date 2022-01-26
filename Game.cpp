@@ -24,22 +24,48 @@ void Game::initWindow() {
 }
 
 void Game::initFonts() {
-    this->font.loadFromFile("Fonts/Painterz.ttf");
+    this->font.loadFromFile("Fonts/37456_TERMINAL.ttf");
 }
 
 void Game::initText() {
     this->littleFlowerText.setFont(this->font);
     this->littleFlowerText.setCharacterSize(24);
-    this->littleFlowerText.setFillColor(sf::Color::White);  // default
+    this->littleFlowerText.setFillColor(sf::Color::Black);  // default
     this->littleFlowerText.setString("text failed to render");
+
+    this->uiText.setFont(this->font);
+    this->uiText.setCharacterSize(12);
+    this->uiText.setFillColor(sf::Color::Black);  // default
+    //this->uiText.setPosition(this->window->getSize().x / 2) - (this->uiText.getPosition().x / 2), this->window->getSize().y - this->uiText.getPosition().y)
+    this->uiText.setPosition(0, 40);
+    this->uiText.setString("text failed to render");
 }
 
 // initialize sprites - assign texture and set position
 void Game::initSprites() {
     this->flower.setTexture(this->little_flower.getTexture());
+    this->about.setTexture(this->ui.getAboutTexture());
+    this->reset.setTexture(this->ui.getResetTexture());
+    this->mint.setTexture(this->ui.getMintTexture());
+
     this->flower.setPosition(
         (this->window->getSize().x / 2) - (this->flower.getGlobalBounds().width / 2),
-        this->window->getSize().y - this->flower.getGlobalBounds().height
+        this->window->getSize().y - (this->flower.getGlobalBounds().height + this->about.getGlobalBounds().height)
+    );
+
+    this->about.setPosition(
+        (this->window->getSize().x * 0.25) - (this->about.getGlobalBounds().width / 2), // - (this->about.getGlobalBounds().width / 4) + (this->about.getGlobalBounds().height / 2)),
+        this->window->getSize().y - this->about.getGlobalBounds().height
+    );
+
+    this->reset.setPosition(
+        (this->window->getSize().x * 0.5) - (this->reset.getGlobalBounds().width / 2),  // - (this->reset.getGlobalBounds().width + this->about.getGlobalBounds().width)),
+        this->window->getSize().y - this->reset.getGlobalBounds().height
+    );
+
+    this->mint.setPosition(
+        (this->window->getSize().x * 0.75) - (this->mint.getGlobalBounds().width / 2),  // - (this->mint.getGlobalBounds().width + this->reset.getGlobalBounds().width + this->about.getGlobalBounds().width)),
+        this->window->getSize().y - this->mint.getGlobalBounds().height
     );
 }
 
@@ -104,6 +130,17 @@ void Game::mouseClicks() {
                 if (curr_state <= 2)
                     this->little_flower.setState(curr_state + 1);
             }
+
+            // display UI text depending on button clicked
+            if(this->about.getGlobalBounds().contains(this->mousePosition)) {
+                this->ui.setButton(1);
+            }
+            if(this->reset.getGlobalBounds().contains(this->mousePosition)) {
+                this->ui.setButton(2);
+            }
+            if(this->mint.getGlobalBounds().contains(this->mousePosition)) {
+                this->ui.setButton(3);
+            }
         }
     }
     else {
@@ -115,6 +152,10 @@ void Game::updateText() {
     std::stringstream stream;
     stream << this->little_flower.getTextString();
     this->littleFlowerText.setString(stream.str());
+
+    std::stringstream uiStream;
+    uiStream << this->ui.getTextString();
+    this->uiText.setString(uiStream.str());
 }
 
 void Game::updateSprites() {
@@ -127,6 +168,16 @@ void Game::updateLittleFlower() {
     this->little_flower.updateTextString();
 }
 
+void Game::updateUI() {
+    if (this->little_flower.getState() == 3) {
+        this->ui.setMintingEnabled(true);
+    }
+    else {
+        this->ui.setMintingEnabled(false);
+    }
+    this->ui.updateUI();
+}
+
 void Game::update() {
     this->pollEvents();
 
@@ -136,15 +187,20 @@ void Game::update() {
         this->updateText();
         this->updateSprites();
         this->updateLittleFlower();
+        this->updateUI();
     }
 }
 
 void Game::renderText(sf::RenderTarget& target) {
     target.draw(this->littleFlowerText);
+    target.draw(this->uiText);
 }
 
 void Game::renderSprites(sf::RenderTarget& target) {
     target.draw(this->flower);
+    target.draw(this->about);
+    target.draw(this->reset);
+    target.draw(this->mint);
 }
 
 // renders game objects

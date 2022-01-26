@@ -3,6 +3,7 @@
 
 #include "Environment.h"
 #include "LittleFlower.h"
+#include "UI.h"
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -27,9 +28,13 @@ class Game {
         // text
         sf::Font font;
         sf::Text littleFlowerText;
+        sf::Text uiText;
 
         // sprites
         sf::Sprite flower;
+        sf::Sprite about;
+        sf::Sprite reset;
+        sf::Sprite mint;
 
         // event to capture user input
         sf::Event ev;
@@ -39,6 +44,9 @@ class Game {
 
         // little flower (state)
         LittleFlower little_flower;
+
+        // UI
+        UI ui;
 
         // functions
         void initVariables();
@@ -62,6 +70,7 @@ class Game {
         void updateText();
         void updateSprites();
         void updateLittleFlower();
+        void updateUI();
         void update();
         void renderText(sf::RenderTarget& target);
         void renderSprites(sf::RenderTarget& target);
