@@ -3,7 +3,11 @@ Little Flower Video Game for PC written in C++.
 See the [Game Design Document](https://www.notion.so/reganwillis/Little-Flower-Puzzles-NFT-Version-Game-Design-Document-3682585ab6324d10b09851c36116ecfa).
 
 ## Included Repositories
-* [Create-Flower](https://github.com/reganwillis/Randomize-Pixel-Art) (will be included)
+* [Create-Flower](https://github.com/reganwillis/Randomize-Pixel-Art)
+
+## Libraries
+* [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/)
+* Something for CSPRNG
 
 ## Development
 I used [this tutorial](https://code.visualstudio.com/docs/languages/cpp#_example-install-mingwx64) and [this tutorial](https://www.msys2.org/) to install a C++ compiler and add it to the path. I compiled the program with `g++ -Wall -c main.cpp` and ran it with `a.exe`.

@@ -1,15 +1,12 @@
-#include "CreateFlower.h"
+#include "..\Create-Flower\src\CreateFlower.h"
 #include "Game.h"
 #include <random>
 
 int main()
 {
-    // random
-    // https://docs.microsoft.com/en-us/cpp/standard-library/random-device-class?redirectedfrom=MSDN&view=msvc-170
+    // copied from ../Create-Flower/src/main.cpp
     std::random_device gen;
     std::srand(gen());
-
-    // get random flower (rarity & colors)
     CreateFlower createFlower;
 
     // game engine class object
