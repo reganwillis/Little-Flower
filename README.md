@@ -9,6 +9,10 @@ See the [Game Design Document](https://www.notion.so/reganwillis/Little-Flower-P
 * [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/)
 * Something for CSPRNG
 
+## Usage
+TODO: add a makefile
+use command `mingw32-make` to make
+
 ## Development
 I used [this tutorial](https://code.visualstudio.com/docs/languages/cpp#_example-install-mingwx64) and [this tutorial](https://www.msys2.org/) to install a C++ compiler and add it to the path. I compiled the program with `g++ -Wall -c main.cpp` and ran it with `a.exe`.
 

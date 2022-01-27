@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Environment.h"
 #include "LittleFlower.h"
+#include "Shapes.h"
 
 // initialize game logic variables
 void Game::initVariables() {
@@ -178,6 +179,14 @@ void Game::updateUI() {
     this->ui.updateUI();
 }
 
+void Game::updateShapes() {
+    if (this->shapes.updateShapes()) {
+        this->shape.setTexture(this->shapes.getTexture());
+        this->shape.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->shape.getGlobalBounds().width)), 0.f);
+        this->shapes.addShape(this->shape);
+    }
+}
+
 void Game::update() {
     this->pollEvents();
 
@@ -188,6 +197,7 @@ void Game::update() {
         this->updateSprites();
         this->updateLittleFlower();
         this->updateUI();
+        this->updateShapes();
     }
 }
 
@@ -198,6 +208,9 @@ void Game::renderText(sf::RenderTarget& target) {
 
 void Game::renderSprites(sf::RenderTarget& target) {
     target.draw(this->flower);
+
+    for (auto &s : this->shapes.getShapes())
+        target.draw(s);
     target.draw(this->about);
     target.draw(this->reset);
     target.draw(this->mint);

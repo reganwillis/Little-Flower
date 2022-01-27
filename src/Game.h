@@ -4,6 +4,7 @@
 #include "Environment.h"
 #include "LittleFlower.h"
 #include "UI.h"
+#include "Shapes.h"
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -32,6 +33,7 @@ class Game {
 
         // sprites
         sf::Sprite flower;
+        sf::Sprite shape;
         sf::Sprite about;
         sf::Sprite reset;
         sf::Sprite mint;
@@ -47,6 +49,9 @@ class Game {
 
         // UI
         UI ui;
+
+        // Shapes
+        Shapes shapes;
 
         // functions
         void initVariables();
@@ -71,6 +76,7 @@ class Game {
         void updateSprites();
         void updateLittleFlower();
         void updateUI();
+        void updateShapes();
         void update();
         void renderText(sf::RenderTarget& target);
         void renderSprites(sf::RenderTarget& target);
