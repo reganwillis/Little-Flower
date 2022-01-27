@@ -55,19 +55,21 @@ void Game::initSprites() {
     );
 
     this->about.setPosition(
-        (this->window->getSize().x * 0.25) - (this->about.getGlobalBounds().width / 2), // - (this->about.getGlobalBounds().width / 4) + (this->about.getGlobalBounds().height / 2)),
+        (this->window->getSize().x * 0.25) - (this->about.getGlobalBounds().width / 2),
         this->window->getSize().y - this->about.getGlobalBounds().height
     );
 
     this->reset.setPosition(
-        (this->window->getSize().x * 0.5) - (this->reset.getGlobalBounds().width / 2),  // - (this->reset.getGlobalBounds().width + this->about.getGlobalBounds().width)),
+        (this->window->getSize().x * 0.5) - (this->reset.getGlobalBounds().width / 2),
         this->window->getSize().y - this->reset.getGlobalBounds().height
     );
 
     this->mint.setPosition(
-        (this->window->getSize().x * 0.75) - (this->mint.getGlobalBounds().width / 2),  // - (this->mint.getGlobalBounds().width + this->reset.getGlobalBounds().width + this->about.getGlobalBounds().width)),
+        (this->window->getSize().x * 0.75) - (this->mint.getGlobalBounds().width / 2),
         this->window->getSize().y - this->mint.getGlobalBounds().height
     );
+
+    this->shapes.setBounds(this->window->getSize().x, this->window->getSize().y - this->reset.getGlobalBounds().height);
 }
 
 // constructor
@@ -143,9 +145,42 @@ void Game::mouseClicks() {
                 this->ui.setButton(3);
             }
         }
+        bool shapeHeld = false;
+
+        // drag shapes around
+        // set mouseHeld == true somewhere for shape to follow faster
+            for (auto &s : this->shapes.getShapes()) {
+                if (shapeHeld == false) {
+                    if (s.getGlobalBounds().contains(this->mousePosition)) {
+                        shapeHeld = true;
+                        // calculate shape center
+                        float x_center = s.getPosition().x + (s.getGlobalBounds().width / 2);
+                        float y_center = s.getPosition().y + (s.getGlobalBounds().height / 2);
+
+                        if (x_center > mousePosition.x)
+                            this->shapes.moveShape(s, mousePosition.x - x_center, 0.f);
+                        if (x_center < mousePosition.x)
+                            this->shapes.moveShape(s, mousePosition.x - x_center, 0.f);
+                        if (y_center > mousePosition.y)
+                            this->shapes.moveShape(s, 0.f, mousePosition.y - y_center);
+                        if (y_center < mousePosition.y)
+                            this->shapes.moveShape(s, 0.f, mousePosition.y - y_center);
+                    }
+                    else {
+                        this->shapes.moveShape(s, 0.f, 1.f);
+                        shapeHeld = false;
+                    }
+                }
+                else {
+                    this->shapes.moveShape(s, 0.f, 1.f);
+                }
+            }
     }
     else {
         this->mouseHeld = false;
+
+        for (auto &s : this->shapes.getShapes())
+            this->shapes.moveShape(s, 0.f, 1.f);
     }
 }
 
@@ -180,7 +215,10 @@ void Game::updateUI() {
 }
 
 void Game::updateShapes() {
-    if (this->shapes.updateShapes()) {
+    // TODO: ajust bounds when button bar is put in
+    float bounds = this->window->getSize().y - this->reset.getGlobalBounds().height;
+
+    if (this->shapes.updateShapes(bounds)) {
         this->shape.setTexture(this->shapes.getTexture());
         this->shape.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->shape.getGlobalBounds().width)), 0.f);
         this->shapes.addShape(this->shape);

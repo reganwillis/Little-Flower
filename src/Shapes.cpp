@@ -1,9 +1,10 @@
 #include "Shapes.H"
+#include <iostream>
 
 void Shapes::initVars() {
     this->shape_spawn_timer_max = 250.f;
     this->shape_spawn_timer = this->shape_spawn_timer_max;
-    this->max_shapes = 10;
+    this->max_shapes = 7;
 }
 
 void Shapes::initShapeTypes() {
@@ -32,7 +33,7 @@ void Shapes::addShape(sf::Sprite shape) {
     this->shapes.push_back(shape);
 }
 
-bool Shapes::updateShapes() {
+bool Shapes::updateShapes(float bounds) {
     bool spawn = false;
 
     if (this->shapes.size() < this->max_shapes) {
@@ -46,11 +47,27 @@ bool Shapes::updateShapes() {
         }
     }
 
-    for (auto &s : this->shapes) {
-        s.move(0.f, 1.f);
-    }
-
     return spawn;
+}
+
+void Shapes::moveShape(sf::Sprite& shape, float offset_x, float offset_y) {
+
+    if (offset_x < 0) {
+        if (shape.getPosition().x > 0)
+            shape.move(offset_x, 0.f);
+    }
+    else if (offset_x > 0) {
+        if (shape.getPosition().x + shape.getGlobalBounds().width < this->bounds_x)
+            shape.move(offset_x, 0.f);
+    }
+    if (offset_y < 0) {
+        if (shape.getPosition().y > 0)
+            shape.move(0.f, offset_y);
+    }
+    else if (offset_y > 0) {
+        if (shape.getPosition().y + shape.getGlobalBounds().height < this->bounds_y)
+            shape.move(0.f, offset_y);
+    }
 }
 
 std::vector<sf::Sprite>& Shapes::getShapes() {
@@ -67,4 +84,9 @@ sf::Texture& Shapes::getTexture() {
         return this->blue.texture;
     else
         return this->pink.texture;
+}
+
+void Shapes::setBounds(float x, float y) {
+    this->bounds_x = x;
+    this->bounds_y = y;
 }

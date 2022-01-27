@@ -6,9 +6,8 @@
 #include <ctime>
 
 // TODO:
-// shapes sit at the bottom of the screen
+// speed up how fast the mouse can more with shape following
 // function for comparing chosen shapes called from Game::updateShapes()
-// drag shapes with mouse
 // if shape (and mouse?) intersects with circle put it there
 // check equality of chosen shapes and use to progress game
 
@@ -18,6 +17,8 @@ class Shapes {
         float shape_spawn_timer;
         float shape_spawn_timer_max;
         unsigned int max_shapes;
+        float bounds_x;
+        float bounds_y;
 
         std::vector<sf::Sprite> shapes;
 
@@ -37,11 +38,15 @@ class Shapes {
 
         // functions
         void addShape(sf::Sprite shape);
-        bool updateShapes();
+        bool updateShapes(float bounds);
+        void moveShape(sf::Sprite& shape, float offset_x, float offset_y);
 
         // getters
         std::vector<sf::Sprite>& getShapes();
         sf::Texture& getTexture();
+
+        // setters
+        void setBounds(float x, float y);
 };
 
 #endif
