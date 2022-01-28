@@ -7,6 +7,8 @@
 void Game::initVariables() {
     this->endGame = false;
     this->mouseHeld = false;
+    this->shapeHeld = false;
+    this->shapeGrabbed = -1;
 }
 
 // initialize game window
@@ -69,7 +71,9 @@ void Game::initSprites() {
         this->window->getSize().y - this->mint.getGlobalBounds().height
     );
 
-    this->shapes.setBounds(this->window->getSize().x, this->window->getSize().y - this->reset.getGlobalBounds().height);
+    this->bounds_x = this->window->getSize().x;
+    this->bounds_y = this->window->getSize().y - this->reset.getGlobalBounds().height;
+    this->shapes.setBounds(this->bounds_x, this->bounds_y);
 }
 
 // constructor
@@ -145,39 +149,57 @@ void Game::mouseClicks() {
                 this->ui.setButton(3);
             }
         }
-        bool shapeHeld = false;
 
         // drag shapes around
-        // set mouseHeld == true somewhere for shape to follow faster
-            for (auto &s : this->shapes.getShapes()) {
-                if (shapeHeld == false) {
-                    if (s.getGlobalBounds().contains(this->mousePosition)) {
-                        shapeHeld = true;
-                        // calculate shape center
-                        float x_center = s.getPosition().x + (s.getGlobalBounds().width / 2);
-                        float y_center = s.getPosition().y + (s.getGlobalBounds().height / 2);
+        for (size_t i = 0; i < this->shapes.getShapes().size(); ++i) {
+            
+            // left mouse button is pressed while in shape
+            if (this->shapeHeld == false) {
+                if (this->shapes.getShapes()[i].getGlobalBounds().contains(this->mousePosition)) {
+                    this->shapeHeld = true;
+                    this->shapeGrabbed = i;
+                }
+            }
+            if (this->shapeHeld == true) {
 
+                // only move the shape being held
+                if (i == this->shapeGrabbed) {
+                    // calculate shape center
+                    float x_center = this->shapes.getShapes()[i].getPosition().x + (this->shapes.getShapes()[i].getGlobalBounds().width / 2);
+                    float y_center = this->shapes.getShapes()[i].getPosition().y + (this->shapes.getShapes()[i].getGlobalBounds().height / 2);
+
+                    std::cout << mousePosition.x - x_center << ", " << mousePosition.y - y_center << "\t";
+                    std::cout << this->shapes.getShapes()[i].getPosition().x << ", " << this->shapes.getShapes()[i].getPosition().y << std::endl;
+
+                    // shape follows mouse position if mouse is still in bounds
+                    if (mousePosition.x > 0 && mousePosition.x < this->bounds_x && mousePosition.y > 0 && mousePosition.y < this->bounds_y) {
                         if (x_center > mousePosition.x)
-                            this->shapes.moveShape(s, mousePosition.x - x_center, 0.f);
+                            this->shapes.moveShape(this->shapes.getShapes()[i], mousePosition.x - x_center, 0.f);
                         if (x_center < mousePosition.x)
-                            this->shapes.moveShape(s, mousePosition.x - x_center, 0.f);
+                            this->shapes.moveShape(this->shapes.getShapes()[i], mousePosition.x - x_center, 0.f);
                         if (y_center > mousePosition.y)
-                            this->shapes.moveShape(s, 0.f, mousePosition.y - y_center);
+                            this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, mousePosition.y - y_center);
                         if (y_center < mousePosition.y)
-                            this->shapes.moveShape(s, 0.f, mousePosition.y - y_center);
+                            this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, mousePosition.y - y_center);
                     }
                     else {
-                        this->shapes.moveShape(s, 0.f, 1.f);
                         shapeHeld = false;
+                        shapeGrabbed = -1;
                     }
                 }
                 else {
-                    this->shapes.moveShape(s, 0.f, 1.f);
+                    this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, 1.f);
                 }
             }
+            else {
+                this->shapeGrabbed = -1;
+                this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, 1.f);
+            }
+        }
     }
     else {
         this->mouseHeld = false;
+        this->shapeHeld = false;
 
         for (auto &s : this->shapes.getShapes())
             this->shapes.moveShape(s, 0.f, 1.f);

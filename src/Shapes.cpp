@@ -9,11 +9,11 @@ void Shapes::initVars() {
 
 void Shapes::initShapeTypes() {
     sf::Texture shape_0_texture;
-    shape_0_texture.loadFromFile("Images/32_32_yellow.png");
+    shape_0_texture.loadFromFile("Images/water-drop.png");
     sf::Texture shape_1_texture;
-    shape_1_texture.loadFromFile("Images/32_32_blue.png");
+    shape_1_texture.loadFromFile("Images/heart-shape.png");
     sf::Texture shape_2_texture;
-    shape_2_texture.loadFromFile("Images/32_32.png");
+    shape_2_texture.loadFromFile("Images/crystal-ball.png");
     this->yellow.texture = shape_0_texture;
     this->blue.texture = shape_1_texture;
     this->pink.texture = shape_2_texture;
@@ -52,19 +52,19 @@ bool Shapes::updateShapes(float bounds) {
 
 void Shapes::moveShape(sf::Sprite& shape, float offset_x, float offset_y) {
 
-    if (offset_x < 0) {
-        if (shape.getPosition().x > 0)
+    if (offset_x < 0.f) {
+        if (shape.getPosition().x > 0.f)
             shape.move(offset_x, 0.f);
     }
-    else if (offset_x > 0) {
+    else if (offset_x > 0.f) {
         if (shape.getPosition().x + shape.getGlobalBounds().width < this->bounds_x)
             shape.move(offset_x, 0.f);
     }
-    if (offset_y < 0) {
-        if (shape.getPosition().y > 0)
+    if (offset_y < 0.f) {
+        if (shape.getPosition().y > 0.f)
             shape.move(0.f, offset_y);
     }
-    else if (offset_y > 0) {
+    else if (offset_y > 0.f) {
         if (shape.getPosition().y + shape.getGlobalBounds().height < this->bounds_y)
             shape.move(0.f, offset_y);
     }

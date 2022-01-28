@@ -21,6 +21,10 @@ class Game {
         // game logic vars
         bool endGame;
         bool mouseHeld;
+        bool shapeHeld;
+        size_t shapeGrabbed;
+        float bounds_x;
+        float bounds_y;
 
         // window variables
         sf::RenderWindow* window;

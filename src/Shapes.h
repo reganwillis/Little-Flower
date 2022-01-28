@@ -6,7 +6,6 @@
 #include <ctime>
 
 // TODO:
-// speed up how fast the mouse can more with shape following
 // function for comparing chosen shapes called from Game::updateShapes()
 // if shape (and mouse?) intersects with circle put it there
 // check equality of chosen shapes and use to progress game
