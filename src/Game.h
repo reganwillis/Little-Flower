@@ -5,6 +5,7 @@
 #include "LittleFlower.h"
 #include "UI.h"
 #include "Shapes.h"
+#include "Puzzles.h"
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -56,6 +57,9 @@ class Game {
         // Shapes
         Shapes shapes;
         Shapes::shape_type shape;
+
+        // puzzles
+        Puzzles puzzles;
 
         // functions
         void initVariables();

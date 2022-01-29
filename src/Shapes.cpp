@@ -31,6 +31,9 @@ Shapes::~Shapes() {}
 
 void Shapes::addShape() {
     shape_type shape;
+
+    shape.selected = -1;
+
     // get random texture
     int num = rand() % 3;
 
@@ -38,7 +41,7 @@ void Shapes::addShape() {
         shape.type = type_1.type;
         shape.sprite.setTexture(type_1.texture);
     }
-    if (num == 1) {
+    else if (num == 1) {
         shape.type = type_2.type;
         shape.sprite.setTexture(type_2.texture);
     }
@@ -47,7 +50,7 @@ void Shapes::addShape() {
         shape.sprite.setTexture(type_3.texture);
     }
     else {
-        std::cout << "Error: Invalid random number for shape type and texture."
+        std::cout << "Error: Invalid random number for shape type and texture (" << num << ")." << std::endl;
     }
 
     // get random position

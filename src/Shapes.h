@@ -32,6 +32,7 @@ class Shapes {
             int type;  // (0, 1 or 2)
             sf::Texture texture;
             sf::Sprite sprite;
+            int selected;
         } type_1, type_2, type_3;
 
         std::vector<shape_type> shapes;
