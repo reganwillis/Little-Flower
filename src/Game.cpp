@@ -168,11 +168,8 @@ void Game::mouseClicks() {
                     float x_center = this->shapes.getShapes()[i].getPosition().x + (this->shapes.getShapes()[i].getGlobalBounds().width / 2);
                     float y_center = this->shapes.getShapes()[i].getPosition().y + (this->shapes.getShapes()[i].getGlobalBounds().height / 2);
 
-                    std::cout << mousePosition.x - x_center << ", " << mousePosition.y - y_center << "\t";
-                    std::cout << this->shapes.getShapes()[i].getPosition().x << ", " << this->shapes.getShapes()[i].getPosition().y << std::endl;
-
                     // shape follows mouse position if mouse is still in bounds
-                    if (mousePosition.x > 0 && mousePosition.x < this->bounds_x && mousePosition.y > 0 && mousePosition.y < this->bounds_y) {
+                    if (mousePosition.x > (0 + (this->shapes.getShapes()[i].getGlobalBounds().width / 2)) && mousePosition.x < (this->bounds_x - (this->shapes.getShapes()[i].getGlobalBounds().width / 2)) && mousePosition.y > (0 + (this->shapes.getShapes()[i].getGlobalBounds().height / 2)) && mousePosition.y < (this->bounds_y - (this->shapes.getShapes()[i].getGlobalBounds().height / 2))) {
                         if (x_center > mousePosition.x)
                             this->shapes.moveShape(this->shapes.getShapes()[i], mousePosition.x - x_center, 0.f);
                         if (x_center < mousePosition.x)
