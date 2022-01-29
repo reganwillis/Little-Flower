@@ -19,14 +19,6 @@ class Shapes {
         float bounds_x;
         float bounds_y;
 
-        std::vector<sf::Sprite> shapes;
-
-        // shape types
-        struct shape_type {
-            int type;  // (0, 1 or 2)
-            sf::Texture texture;
-        } yellow, blue, pink;
-
         // functions
         void initVars();
         void initShapeTypes();
@@ -35,14 +27,22 @@ class Shapes {
         Shapes();
         virtual ~Shapes();
 
+        // shape types
+        struct shape_type {
+            int type;  // (0, 1 or 2)
+            sf::Texture texture;
+            sf::Sprite sprite;
+        } type_1, type_2, type_3;
+
+        std::vector<shape_type> shapes;
+
         // functions
-        void addShape(sf::Sprite shape);
+        void addShape();
         bool updateShapes(float bounds);
-        void moveShape(sf::Sprite& shape, float offset_x, float offset_y);
+        void moveShape(shape_type& shape, float offset_x, float offset_y);
 
         // getters
-        std::vector<sf::Sprite>& getShapes();
-        sf::Texture& getTexture();
+        std::vector<shape_type>& getShapes();
 
         // setters
         void setBounds(float x, float y);

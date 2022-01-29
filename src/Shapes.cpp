@@ -14,12 +14,12 @@ void Shapes::initShapeTypes() {
     shape_1_texture.loadFromFile("Images/heart-shape.png");
     sf::Texture shape_2_texture;
     shape_2_texture.loadFromFile("Images/crystal-ball.png");
-    this->yellow.texture = shape_0_texture;
-    this->blue.texture = shape_1_texture;
-    this->pink.texture = shape_2_texture;
-    this->yellow.type = 0;
-    this->blue.type = 1;
-    this->pink.type = 2;
+    this->type_1.texture = shape_0_texture;
+    this->type_2.texture = shape_1_texture;
+    this->type_3.texture = shape_2_texture;
+    this->type_1.type = 0;
+    this->type_2.type = 1;
+    this->type_3.type = 2;
 }
 
 Shapes::Shapes() {
@@ -29,7 +29,30 @@ Shapes::Shapes() {
 
 Shapes::~Shapes() {}
 
-void Shapes::addShape(sf::Sprite shape) {
+void Shapes::addShape() {
+    shape_type shape;
+    // get random texture
+    int num = rand() % 3;
+
+    if (num == 0) {
+        shape.type = type_1.type;
+        shape.sprite.setTexture(type_1.texture);
+    }
+    if (num == 1) {
+        shape.type = type_2.type;
+        shape.sprite.setTexture(type_2.texture);
+    }
+    else if (num == 2) {
+        shape.type = type_3.type;
+        shape.sprite.setTexture(type_3.texture);
+    }
+    else {
+        std::cout << "Error: Invalid random number for shape type and texture."
+    }
+
+    // get random position
+    shape.sprite.setPosition(static_cast<float>(rand() % static_cast<int>(this->bounds_x - shape.sprite.getGlobalBounds().width)), 0.f);
+
     this->shapes.push_back(shape);
 }
 
@@ -50,40 +73,28 @@ bool Shapes::updateShapes(float bounds) {
     return spawn;
 }
 
-void Shapes::moveShape(sf::Sprite& shape, float offset_x, float offset_y) {
+void Shapes::moveShape(shape_type& shape, float offset_x, float offset_y) {
 
     if (offset_x < 0.f) {
-        if (shape.getPosition().x > 0.f)
-            shape.move(offset_x, 0.f);
+        if (shape.sprite.getPosition().x > 0.f)
+            shape.sprite.move(offset_x, 0.f);
     }
     else if (offset_x > 0.f) {
-        if (shape.getPosition().x + shape.getGlobalBounds().width < this->bounds_x)
-            shape.move(offset_x, 0.f);
+        if (shape.sprite.getPosition().x + shape.sprite.getGlobalBounds().width < this->bounds_x)
+            shape.sprite.move(offset_x, 0.f);
     }
     if (offset_y < 0.f) {
-        if (shape.getPosition().y > 0.f)
-            shape.move(0.f, offset_y);
+        if (shape.sprite.getPosition().y > 0.f)
+            shape.sprite.move(0.f, offset_y);
     }
     else if (offset_y > 0.f) {
-        if (shape.getPosition().y + shape.getGlobalBounds().height < this->bounds_y)
-            shape.move(0.f, offset_y);
+        if (shape.sprite.getPosition().y + shape.sprite.getGlobalBounds().height < this->bounds_y)
+            shape.sprite.move(0.f, offset_y);
     }
 }
 
-std::vector<sf::Sprite>& Shapes::getShapes() {
+std::vector<Shapes::shape_type>& Shapes::getShapes() {
     return this->shapes;
-}
-
-sf::Texture& Shapes::getTexture() {
-    // return random texture
-    int num = rand() % 3;
-
-    if (num == 0)
-        return this->yellow.texture;
-    if (num == 1)
-        return this->blue.texture;
-    else
-        return this->pink.texture;
 }
 
 void Shapes::setBounds(float x, float y) {

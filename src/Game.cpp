@@ -155,7 +155,7 @@ void Game::mouseClicks() {
             
             // left mouse button is pressed while in shape
             if (this->shapeHeld == false) {
-                if (this->shapes.getShapes()[i].getGlobalBounds().contains(this->mousePosition)) {
+                if (this->shapes.getShapes()[i].sprite.getGlobalBounds().contains(this->mousePosition)) {
                     this->shapeHeld = true;
                     this->shapeGrabbed = i;
                 }
@@ -165,11 +165,14 @@ void Game::mouseClicks() {
                 // only move the shape being held
                 if (i == this->shapeGrabbed) {
                     // calculate shape center
-                    float x_center = this->shapes.getShapes()[i].getPosition().x + (this->shapes.getShapes()[i].getGlobalBounds().width / 2);
-                    float y_center = this->shapes.getShapes()[i].getPosition().y + (this->shapes.getShapes()[i].getGlobalBounds().height / 2);
+                    float x_center = this->shapes.getShapes()[i].sprite.getPosition().x + (this->shapes.getShapes()[i].sprite.getGlobalBounds().width / 2);
+                    float y_center = this->shapes.getShapes()[i].sprite.getPosition().y + (this->shapes.getShapes()[i].sprite.getGlobalBounds().height / 2);
 
                     // shape follows mouse position if mouse is still in bounds
-                    if (mousePosition.x > (0 + (this->shapes.getShapes()[i].getGlobalBounds().width / 2)) && mousePosition.x < (this->bounds_x - (this->shapes.getShapes()[i].getGlobalBounds().width / 2)) && mousePosition.y > (0 + (this->shapes.getShapes()[i].getGlobalBounds().height / 2)) && mousePosition.y < (this->bounds_y - (this->shapes.getShapes()[i].getGlobalBounds().height / 2))) {
+                    if (mousePosition.x > (0 + (this->shapes.getShapes()[i].sprite.getGlobalBounds().width / 2)) && 
+                        mousePosition.x < (this->bounds_x - (this->shapes.getShapes()[i].sprite.getGlobalBounds().width / 2)) && 
+                        mousePosition.y > (0 + (this->shapes.getShapes()[i].sprite.getGlobalBounds().height / 2)) && 
+                        mousePosition.y < (this->bounds_y - (this->shapes.getShapes()[i].sprite.getGlobalBounds().height / 2))) {
                         if (x_center > mousePosition.x)
                             this->shapes.moveShape(this->shapes.getShapes()[i], mousePosition.x - x_center, 0.f);
                         if (x_center < mousePosition.x)
@@ -235,13 +238,10 @@ void Game::updateUI() {
 
 void Game::updateShapes() {
     // TODO: ajust bounds when button bar is put in
-    float bounds = this->window->getSize().y - this->reset.getGlobalBounds().height;
+    float bounds = this->bounds_y;
 
-    if (this->shapes.updateShapes(bounds)) {
-        this->shape.setTexture(this->shapes.getTexture());
-        this->shape.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x - this->shape.getGlobalBounds().width)), 0.f);
-        this->shapes.addShape(this->shape);
-    }
+    if (this->shapes.updateShapes(bounds))
+        this->shapes.addShape();
 }
 
 void Game::update() {
@@ -267,7 +267,7 @@ void Game::renderSprites(sf::RenderTarget& target) {
     target.draw(this->flower);
 
     for (auto &s : this->shapes.getShapes())
-        target.draw(s);
+        target.draw(s.sprite);
     target.draw(this->about);
     target.draw(this->reset);
     target.draw(this->mint);

@@ -37,7 +37,6 @@ class Game {
 
         // sprites
         sf::Sprite flower;
-        sf::Sprite shape;
         sf::Sprite about;
         sf::Sprite reset;
         sf::Sprite mint;
@@ -56,6 +55,7 @@ class Game {
 
         // Shapes
         Shapes shapes;
+        Shapes::shape_type shape;
 
         // functions
         void initVariables();
