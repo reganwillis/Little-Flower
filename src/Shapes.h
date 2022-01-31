@@ -5,10 +5,6 @@
 #include <vector>
 #include <ctime>
 
-// TODO:
-// function for comparing chosen shapes called from Game::updateShapes()
-// if shape (and mouse?) intersects with circle put it there
-// check equality of chosen shapes and use to progress game
 
 class Shapes {
     private:
@@ -41,15 +37,14 @@ class Shapes {
         void addShape();
         bool updateShapes(float bounds);
         void moveShape(shape_type& shape, float offset_x, float offset_y);
-        void alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y);
-        void clearShapes();
+        void alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y, bool movingToMouse=false);
 
         // getters
         std::vector<shape_type>& getShapes();
 
         // setters
         void setBounds(float x, float y);
-        void setMaxShapes(unsigned int i);
+        void changeState(int s);
 };
 
 #endif

@@ -102,6 +102,8 @@ int Puzzles::getNumSpots() {
         return this->spots_2;
     else if (this->state == 2)
         return this->spots_3;
+    else if (this->state == 3)
+        return 0;
     
     std::cout << "ERROR: Puzzle state not within bounds (" << this->state <<
     "). Returning -1 for Puzzles::getSpots()" << std::endl;
@@ -117,6 +119,8 @@ int Puzzles::getNumShapes() {
         return this->puzzle_2;
     else if (this->state == 2)
         return this->puzzle_3;
+    else if (this->state == 3)
+        return 0;
 
     std::cout << "ERROR: Puzzle state not within bounds (" << this->state <<
     "). Returning -1 for Puzzles::getNumShapes()" << std::endl;

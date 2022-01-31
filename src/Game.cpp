@@ -177,16 +177,11 @@ void Game::mouseClicks() {
                     for (size_t j = 0; j < this->puzzles.getSpots().size(); ++j) {
 
                         if (this->puzzles.getSpots()[j].getGlobalBounds().intersects(this->shapes.getShapes()[i].sprite.getGlobalBounds())) {
-
-                            // if there is already a shape in the spot drop it
-                            for (size_t k = 0; k < this->shapes.getShapes().size(); ++k) {
-                                if (this->shapes.getShapes()[k].selected == j)
-                                    this->shapes.getShapes()[k].selected = -1;
-                            }
                             // place shape on spot
                             this->shapes.getShapes()[i].selected = j;
                         }
                     }
+
                     if (this->shapes.getShapes()[i].selected != -1) {
                         
                         // if shape was selected move into the spot
@@ -208,7 +203,7 @@ void Game::mouseClicks() {
                             mousePosition.y > (this->shapes.getShapes()[i].sprite.getGlobalBounds().height / 2) && 
                             mousePosition.y < (this->bounds_y - (this->shapes.getShapes()[i].sprite.getGlobalBounds().height / 2))) {
 
-                            this->shapes.alignShape(this->shapes.getShapes()[i],  mousePosition.x, x_center, mousePosition.y, y_center);
+                            this->shapes.alignShape(this->shapes.getShapes()[i], mousePosition.x, x_center, mousePosition.y, y_center);
                         }
                         else
                             shapeGrabbed = -1;
@@ -220,6 +215,25 @@ void Game::mouseClicks() {
                         this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, 1.f);
                 }
             }
+
+            // if there is already a shape in the spot (not of the same type) - drop it
+            for (size_t j = 0; j < this->shapes.getShapes().size(); ++j) {
+                if (this->shapes.getShapes()[j].selected != -1 && this->shapes.getShapes()[i].selected == this->shapes.getShapes()[j].selected && i != j) {
+                    int selected_space = this->shapes.getShapes()[j].selected;
+                    this->shapes.getShapes()[j].selected = -1;
+                    this->shapes.moveShape(this->shapes.getShapes()[j], 0.f, this->shapes.getShapes()[j].sprite.getGlobalBounds().height + 20.f); // move shape down past spot
+                    // calculate shape center
+                    int x_j_center = this->shapes.getShapes()[j].sprite.getPosition().x +
+                                    (this->shapes.getShapes()[j].sprite.getGlobalBounds().width / 2);
+                    int y_j_center = this->shapes.getShapes()[j].sprite.getPosition().y +
+                                    (this->shapes.getShapes()[j].sprite.getGlobalBounds().height / 2);
+                    sf::Mouse::setPosition(sf::Vector2i(x_j_center, y_j_center), *this->window);
+                    shapeGrabbed = j;
+                    this->shapes.getShapes()[i].selected = selected_space;
+                    i = j;
+                }
+            }
+
         }
     }
     else {
@@ -279,16 +293,9 @@ void Game::updateState() {
     if (this->puzzles.checkEquality(this->shapes.getShapes())) {
         if (this->puzzles.getState() != 3)
             this->puzzles.setState(this->puzzles.getState() + 1);
-        // set new max shapes
-        int s = this->puzzles.getState();
-        if (s == 1)
-            this->shapes.setMaxShapes(10);
-        if (s == 2)
-            this->shapes.setMaxShapes(13);
-        if (s == 3)
-            this->shapes.setMaxShapes(0);
-        // clear shapes vector
-        this->shapes.clearShapes();
+
+        // change state in shapes class
+        this->shapes.changeState(this->puzzles.getState());
 
         // grow flower
         int curr_state = this->little_flower.getState();
@@ -321,10 +328,8 @@ void Game::renderText(sf::RenderTarget& target) {
 void Game::renderSprites(sf::RenderTarget& target) {
     target.draw(this->flower);
 
-    if (this->puzzles.getState() != 3) {
-        for (auto &s : this->puzzles.getSpots())
-            target.draw(s);
-    }
+    for (auto &s : this->puzzles.getSpots())
+        target.draw(s);
 
     for (auto &s : this->shapes.getShapes())
         target.draw(s.sprite);

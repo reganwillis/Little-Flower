@@ -104,8 +104,9 @@ position to the new x and y position.
 - float curr_x: current input sprite x position
 - float new_y: new input sprite y position
 - float curr_y: current input sprite y position
+- bool movingToMouse: true if input sprite is moving to a mouse position (default=false)
 */
-void Shapes::alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y) {
+void Shapes::alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y, bool movingToMouse) {
     if (new_x > curr_x)
         moveShape(shape, new_x - curr_x, 0.f);
     if (new_x < curr_x)
@@ -116,9 +117,6 @@ void Shapes::alignShape(shape_type& shape, float new_x, float curr_x, float new_
         moveShape(shape, 0.f, new_y - curr_y);
 }
 
-void Shapes::clearShapes() {
-    this->shapes.clear();
-}
 
 std::vector<Shapes::shape_type>& Shapes::getShapes() {
     return this->shapes;
@@ -129,8 +127,14 @@ void Shapes::setBounds(float x, float y) {
     this->bounds_y = y;
 }
 
-void Shapes::setMaxShapes(unsigned int i) {
-    //std::cout << this->max_shapes << " ";
-    this->max_shapes = i;
-    //std::cout << this->max_shapes;
+void Shapes::changeState(int s) {
+    
+    if (s == 1)
+        this->max_shapes = 10;
+    if (s == 2)
+        this->max_shapes = 13;
+    if (s == 3)
+        this->max_shapes = 0;
+    this->shape_spawn_timer = 0.f;  // reset spawn timer
+    this->shapes.clear();
 }

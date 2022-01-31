@@ -16,7 +16,8 @@ use command `mingw32-make` to make
 # Clean Up TODO
 * which functions need const const
 * bounds sharing between Game and Shape may be inefficient
-* do not switch out shapes of same type
+* private game function get center of sprite
+* bug: game crashing after game over. put in systematic error messages to find cause
 
 ## Development
 I used [this tutorial](https://code.visualstudio.com/docs/languages/cpp#_example-install-mingwx64) and [this tutorial](https://www.msys2.org/) to install a C++ compiler and add it to the path. I compiled the program with `g++ -Wall -c main.cpp` and ran it with `a.exe`.
