@@ -1,4 +1,5 @@
 #include "Puzzles.h"
+#include "Shapes.h"
 #include <iostream>
 
 void Puzzles::initPuzzles() {
@@ -27,24 +28,65 @@ Puzzles::~Puzzles() {}
 
 //void Puzzles::changeState() {}
 
-// TODO
-bool Puzzles::checkEquality() {
+// TODO: rewrite simpler
+bool Puzzles::checkEquality(std::vector<Shapes::shape_type>& vec) {
+    //for (size_t i = 0; i < this->shapes.getShapes().size(); ++i) {}
+    //std::cout << "checking equality" << std::endl;
+    std::vector<int> selected_types;
+    //std::cout << vec.size() << std::endl;
+
+    for (size_t i = 0; i < vec.size(); ++i) {
+
+        //std::cout << vec[i].selected << " ";
+
+        if (vec[i].selected != -1) {
+            //std::cout << vec[i].type << std::endl;
+            selected_types.push_back(vec[i].type);
+            //if (prev != this->shapes.getShapes()[i].type)
+            //    return false;
+            //++count;
+        }
+        //prev = this->shapes.getShapes()[i].type;
+    }
+    //std::cout << std::endl;
+        //std::cout << count << " == " << this->getNumSpots() << std::endl;
+    if (selected_types.size() != this->getNumSpots())
+        return false;
+
+    for (size_t i = 0; i < selected_types.size() - 1; ++i) {
+        if (selected_types[i] != selected_types[i+1]) {
+            return false;
+        }
+    }
+
+    return true;
+    /*std::vector<shape_type> selected_shapes;
+    for (size_t i = 0; i < this->shapes.getShapes().size(); ++i) {
+        if (this->shapes.getShapes()[i].selected != -1) {
+            selected_shapes.push_back(this->shapes.getShapes()[i]);
+        }
+    }
     // if correct number of shapes are entered, check equality
-    if (this->shapes.size() == this->getNumShapes()) {
+    if (selected_shapes.size() == this->getNumShapes()) {
         
         int prev = -1;
-        for (int i = 0; i < this->getNumShapes(); ++i) {
+        for (size_t i = 0; i < selected_shapes.size(); ++i) {
+            //if (this->shapes.getShapes()[i].selected == j)
+            //    this->shapes.getShapes()[i].selected = -1;
+        //}
+        
+        //for (int i = 0; i < this->getNumShapes(); ++i) {
             
             if (prev != -1) {
-                if (prev != this->shapes[i].type)
+                if (prev != selected_shapes[i].type)
                     return false;
             }
-            prev = this->shapes[i].type;
+            prev = selected_shapes.type;
         }
 
         return true;
     }
-    return false;
+    return false;*/
 }
 
 int Puzzles::getState() {
@@ -75,7 +117,6 @@ int Puzzles::getNumShapes() {
         return this->puzzle_2;
     else if (this->state == 2)
         return this->puzzle_3;
-    else
 
     std::cout << "ERROR: Puzzle state not within bounds (" << this->state <<
     "). Returning -1 for Puzzles::getNumShapes()" << std::endl;
@@ -91,14 +132,21 @@ std::vector<sf::Sprite>& Puzzles::getSpots() {
 }
 
 void Puzzles::setState(int s) {
+    std::cout << "setting new state: " << s << std::endl;
 
     if (s >= 0 && s <= 2) {
         this->state = s;
         //changeState();
         initSpots();
+        //if (s == 1)
+        //    this->shapes.setMaxShapes(10);
+        //if (s == 2)
+        //    this->shapes.setMaxShapes(13);
     }
     else if (s == 3) {
         // TODO: game over code
+        this->state = s;
+        //this->spots.clear();
         std::cout << "game over" << std::endl;
     }
     else

@@ -7,7 +7,6 @@
 void Game::initVariables() {
     this->endGame = false;
     this->mouseHeld = false;
-    this->shapeHeld = false;
     this->shapeGrabbed = -1;
 }
 
@@ -130,14 +129,6 @@ void Game::mouseClicks() {
         if (this->mouseHeld == false) {
             this->mouseHeld = true;
 
-            // grow flower if it is clicked on
-            if(this->flower.getGlobalBounds().contains(this->mousePosition)) {
-                int curr_state = this->little_flower.getState();
-
-                if (curr_state <= 2)
-                    this->little_flower.setState(curr_state + 1);
-            }
-
             // display UI text depending on button clicked
             if(this->about.getGlobalBounds().contains(this->mousePosition)) {
                 this->ui.setButton(1);
@@ -150,61 +141,49 @@ void Game::mouseClicks() {
             }
         }
 
-        float spot_x_center;
-        float spot_y_center;
-
         // drag shapes around
         for (size_t i = 0; i < this->shapes.getShapes().size(); ++i) {
             
-            // left mouse button is pressed while in shape
-            if (this->shapeHeld == false && shapeGrabbed == -1) {
+            // no shapes are grabbed
+            if (shapeGrabbed == -1) {
+
+                // if shape grabbed is already selected, unselect it and let it fall
                 if (this->shapes.getShapes()[i].sprite.getGlobalBounds().contains(this->mousePosition) && this->shapes.getShapes()[i].selected != -1) {
-                    this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, 64.f); // move shape down past spot
+                    this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, this->shapes.getShapes()[i].sprite.getGlobalBounds().height); // move shape down past spot
                     this->shapes.getShapes()[i].selected = -1;
-                    //this->shapeHeld = false;
-                    //shapeGrabbed = -1;
                 }
-                if (this->shapes.getShapes()[i].sprite.getGlobalBounds().contains(this->mousePosition)) {
-                    //this->shapes.getShapes()[i].selected = false;
-                    this->shapeHeld = true;
+                // shape selected with mouse
+                else if (this->shapes.getShapes()[i].sprite.getGlobalBounds().contains(this->mousePosition)) {
                     this->shapeGrabbed = i;
                 }
+                                
+                // move all unselected shapes down (left mouse button pressed)
+                if (this->shapes.getShapes()[i].selected == -1)
+                    this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, 1.f);
             }
 
-            if (this->shapeHeld == true) {
-
-                // calculate shape center
-                float x_center = this->shapes.getShapes()[i].sprite.getPosition().x + (this->shapes.getShapes()[i].sprite.getGlobalBounds().width / 2);
-                float y_center = this->shapes.getShapes()[i].sprite.getPosition().y + (this->shapes.getShapes()[i].sprite.getGlobalBounds().height / 2);
-
-
-                // TODO: replace shapeHeld with shapeGrabbed
+            // shapes are grabbed
+            if (this->shapeGrabbed != -1) {
 
                 // only move the shape being held
                 if (i == this->shapeGrabbed) {
-                    int tmp = 0;
-                    // if shape grabbed is already selected, unselect it and grab it
-                    if (this->shapes.getShapes()[i].selected != -1) {
-                        tmp++;
-                        //this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, 64.f); // move shape down past spot
-                        //this->shapes.getShapes()[i].selected = -1;
-                        //this->shapeHeld = false;
-                        //shapeGrabbed = -1;
-                    }
-                    //else {
-                    //    this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, 1.f);
-                    //}
-                    // place shape on spot
+
+                    // calculate shape center
+                    float x_center = this->shapes.getShapes()[i].sprite.getPosition().x +
+                                     (this->shapes.getShapes()[i].sprite.getGlobalBounds().width / 2);
+                    float y_center = this->shapes.getShapes()[i].sprite.getPosition().y +
+                                     (this->shapes.getShapes()[i].sprite.getGlobalBounds().height / 2);
+
                     for (size_t j = 0; j < this->puzzles.getSpots().size(); ++j) {
+
                         if (this->puzzles.getSpots()[j].getGlobalBounds().intersects(this->shapes.getShapes()[i].sprite.getGlobalBounds())) {
 
                             // if there is already a shape in the spot drop it
-                            // TODO: more efficient way to drop
                             for (size_t k = 0; k < this->shapes.getShapes().size(); ++k) {
-                                if (this->shapes.getShapes()[k].selected == j) {
+                                if (this->shapes.getShapes()[k].selected == j)
                                     this->shapes.getShapes()[k].selected = -1;
-                                }
                             }
+                            // place shape on spot
                             this->shapes.getShapes()[i].selected = j;
                         }
                     }
@@ -212,65 +191,43 @@ void Game::mouseClicks() {
                         
                         // if shape was selected move into the spot
                         if (this->puzzles.getSpots()[this->shapes.getShapes()[i].selected].getGlobalBounds().intersects(this->shapes.getShapes()[i].sprite.getGlobalBounds())) {
-                            //std::cout << "shape selected" << std::endl;
 
                             // calculate spot center
-                            spot_x_center = this->puzzles.getSpots()[this->shapes.getShapes()[i].selected].getPosition().x + (this->puzzles.getSpots()[this->shapes.getShapes()[i].selected].getGlobalBounds().width / 2);
-                            spot_y_center = this->puzzles.getSpots()[this->shapes.getShapes()[i].selected].getPosition().y + (this->puzzles.getSpots()[this->shapes.getShapes()[i].selected].getGlobalBounds().height / 2);
+                            float spot_x_center = this->puzzles.getSpots()[this->shapes.getShapes()[i].selected].getPosition().x +
+                                                  (this->puzzles.getSpots()[this->shapes.getShapes()[i].selected].getGlobalBounds().width / 2);
+                            float spot_y_center = this->puzzles.getSpots()[this->shapes.getShapes()[i].selected].getPosition().y +
+                                                  (this->puzzles.getSpots()[this->shapes.getShapes()[i].selected].getGlobalBounds().height / 2);
 
-                            if (spot_x_center > x_center)
-                                this->shapes.moveShape(this->shapes.getShapes()[i], spot_x_center - x_center, 0.f);
-                            if (spot_x_center < x_center)
-                                this->shapes.moveShape(this->shapes.getShapes()[i], spot_x_center - x_center, 0.f);
-                            if (spot_y_center > y_center)
-                                this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, spot_y_center - y_center);
-                            if (spot_y_center < y_center)
-                                this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, spot_y_center - y_center);
-                            //shapeHeld = false;
-                            //shapeGrabbed = -1;
-                            //this->shapes.getShapes()[i].selected = true;
+                            this->shapes.alignShape(this->shapes.getShapes()[i], spot_x_center, x_center, spot_y_center, y_center);
                         }
                     }
                     else {
-                        //this->shapes.getShapes()[i].selected = false;
-
-                        // shape follows mouse position if mouse is still in bounds
-                        if (mousePosition.x > (0 + (this->shapes.getShapes()[i].sprite.getGlobalBounds().width / 2)) && 
+                        // shape follows mouse position if mouse and held shape is still in bounds
+                        if (mousePosition.x > (this->shapes.getShapes()[i].sprite.getGlobalBounds().width / 2) && 
                             mousePosition.x < (this->bounds_x - (this->shapes.getShapes()[i].sprite.getGlobalBounds().width / 2)) && 
-                            mousePosition.y > (0 + (this->shapes.getShapes()[i].sprite.getGlobalBounds().height / 2)) && 
+                            mousePosition.y > (this->shapes.getShapes()[i].sprite.getGlobalBounds().height / 2) && 
                             mousePosition.y < (this->bounds_y - (this->shapes.getShapes()[i].sprite.getGlobalBounds().height / 2))) {
-                            if (x_center > mousePosition.x)
-                                this->shapes.moveShape(this->shapes.getShapes()[i], mousePosition.x - x_center, 0.f);
-                            if (x_center < mousePosition.x)
-                                this->shapes.moveShape(this->shapes.getShapes()[i], mousePosition.x - x_center, 0.f);
-                            if (y_center > mousePosition.y)
-                                this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, mousePosition.y - y_center);
-                            if (y_center < mousePosition.y)
-                                this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, mousePosition.y - y_center);
+
+                            this->shapes.alignShape(this->shapes.getShapes()[i],  mousePosition.x, x_center, mousePosition.y, y_center);
                         }
-                        else {
-                            shapeHeld = false;
+                        else
                             shapeGrabbed = -1;
-                        }
                     }
                 }
                 else {
+                    // move all unselected and ungrabbed shapes down
                     if (this->shapes.getShapes()[i].selected == -1)
                         this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, 1.f);
                 }
             }
-            else {
-                this->shapeGrabbed = -1;
-                if (this->shapes.getShapes()[i].selected == -1)
-                    this->shapes.moveShape(this->shapes.getShapes()[i], 0.f, 1.f);
-            }
         }
     }
     else {
+        // left mouse button is not pressed
         this->mouseHeld = false;
-        this->shapeHeld = false;
+        this->shapeGrabbed = -1;
 
-        // controls shape downward movement is left button is not pressed
+        // move all unselected shapes down
         for (auto &s : this->shapes.getShapes()) {
             if (s.selected == -1)
                 this->shapes.moveShape(s, 0.f, 1.f);
@@ -315,12 +272,30 @@ void Game::updateShapes() {
     if (this->shapes.updateShapes(bounds))
         this->shapes.addShape();
 
+    //std::cout << this->shapes.getShapes().size() << std::endl;
+}
 
-    // TODO: put in its own function
-    //if (this->puzzles.checkEquality()) {
-    //    this->puzzles.setState(this->puzzles.getState() + 1);
-    //}
+void Game::updateState() {
+    if (this->puzzles.checkEquality(this->shapes.getShapes())) {
+        if (this->puzzles.getState() != 3)
+            this->puzzles.setState(this->puzzles.getState() + 1);
+        // set new max shapes
+        int s = this->puzzles.getState();
+        if (s == 1)
+            this->shapes.setMaxShapes(10);
+        if (s == 2)
+            this->shapes.setMaxShapes(13);
+        if (s == 3)
+            this->shapes.setMaxShapes(0);
+        // clear shapes vector
+        this->shapes.clearShapes();
 
+        // grow flower
+        int curr_state = this->little_flower.getState();
+
+        if (curr_state <= 2)
+            this->little_flower.setState(curr_state + 1);
+    }
 }
 
 void Game::update() {
@@ -334,6 +309,7 @@ void Game::update() {
         this->updateLittleFlower();
         this->updateUI();
         this->updateShapes();
+        this->updateState();
     }
 }
 
@@ -345,8 +321,10 @@ void Game::renderText(sf::RenderTarget& target) {
 void Game::renderSprites(sf::RenderTarget& target) {
     target.draw(this->flower);
 
-    for (auto &s : this->puzzles.getSpots())
-        target.draw(s);
+    if (this->puzzles.getState() != 3) {
+        for (auto &s : this->puzzles.getSpots())
+            target.draw(s);
+    }
 
     for (auto &s : this->shapes.getShapes())
         target.draw(s.sprite);

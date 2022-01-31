@@ -2,6 +2,7 @@
 #define PUZZLES_H
 
 #include "Shapes.h"
+#include <SFML/Graphics.hpp>
 #include <vector>
 
 class Puzzles {
@@ -22,7 +23,8 @@ class Puzzles {
         sf::Texture spot_texture;
 
         // list of chosen shapes
-        std::vector<Shapes::shape_type> shapes;
+        Shapes shapes;
+        //std::vector<Shapes::shape_type> shapes;
 
         void initPuzzles();
         void initSpots();
@@ -34,7 +36,7 @@ class Puzzles {
         // functions
         //void changeState();
         //void addShape();
-        bool checkEquality();
+        bool checkEquality(std::vector<Shapes::shape_type>& vec);
 
         // getters
         int getState();

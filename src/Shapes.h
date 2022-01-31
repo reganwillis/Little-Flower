@@ -41,12 +41,15 @@ class Shapes {
         void addShape();
         bool updateShapes(float bounds);
         void moveShape(shape_type& shape, float offset_x, float offset_y);
+        void alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y);
+        void clearShapes();
 
         // getters
         std::vector<shape_type>& getShapes();
 
         // setters
         void setBounds(float x, float y);
+        void setMaxShapes(unsigned int i);
 };
 
 #endif

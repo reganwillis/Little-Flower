@@ -2,7 +2,7 @@
 #include <iostream>
 
 void Shapes::initVars() {
-    this->shape_spawn_timer_max = 250.f;
+    this->shape_spawn_timer_max = 150.f;
     this->shape_spawn_timer = this->shape_spawn_timer_max;
     this->max_shapes = 7;
 }
@@ -61,7 +61,7 @@ void Shapes::addShape() {
 
 bool Shapes::updateShapes(float bounds) {
     bool spawn = false;
-
+    //std::cout << "update shapes max_shapes: " << this->max_shapes << std::endl;
     if (this->shapes.size() < this->max_shapes) {
         if (this->shape_spawn_timer >= shape_spawn_timer_max) {
             spawn = true;
@@ -96,6 +96,30 @@ void Shapes::moveShape(shape_type& shape, float offset_x, float offset_y) {
     }
 }
 
+/*
+This function moves the input sprite from it's current x and y 
+position to the new x and y position.
+- shape_type& shape: input sprite
+- float new_x: new input sprite x position
+- float curr_x: current input sprite x position
+- float new_y: new input sprite y position
+- float curr_y: current input sprite y position
+*/
+void Shapes::alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y) {
+    if (new_x > curr_x)
+        moveShape(shape, new_x - curr_x, 0.f);
+    if (new_x < curr_x)
+        moveShape(shape, new_x - curr_x, 0.f);
+    if (new_y > curr_y)
+        moveShape(shape, 0.f, new_y - curr_y);
+    if (new_y < curr_y)
+        moveShape(shape, 0.f, new_y - curr_y);
+}
+
+void Shapes::clearShapes() {
+    this->shapes.clear();
+}
+
 std::vector<Shapes::shape_type>& Shapes::getShapes() {
     return this->shapes;
 }
@@ -103,4 +127,10 @@ std::vector<Shapes::shape_type>& Shapes::getShapes() {
 void Shapes::setBounds(float x, float y) {
     this->bounds_x = x;
     this->bounds_y = y;
+}
+
+void Shapes::setMaxShapes(unsigned int i) {
+    //std::cout << this->max_shapes << " ";
+    this->max_shapes = i;
+    //std::cout << this->max_shapes;
 }

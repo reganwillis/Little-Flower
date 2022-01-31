@@ -66,7 +66,7 @@ class Game {
         void initWindow();
         void initFonts();
         void initText();
-        void initSprites();
+        void initSprites();;
     public:
         // constructors and deconstructors
         Game();
@@ -85,6 +85,7 @@ class Game {
         void updateLittleFlower();
         void updateUI();
         void updateShapes();
+        void updateState();
         void update();
         void renderText(sf::RenderTarget& target);
         void renderSprites(sf::RenderTarget& target);
