@@ -26,6 +26,9 @@ class Game {
         size_t shapeGrabbed;
         float bounds_x;
         float bounds_y;
+        sf::Clock clock;
+        bool paused = false;
+        bool resume = false;
 
         // window variables
         sf::RenderWindow* window;
@@ -66,7 +69,8 @@ class Game {
         void initWindow();
         void initFonts();
         void initText();
-        void initSprites();;
+        void initSprites();
+        sf::Vector2f getSpriteCenter(sf::Sprite s);
     public:
         // constructors and deconstructors
         Game();
@@ -84,7 +88,6 @@ class Game {
         void updateSprites();
         void updateLittleFlower();
         void updateUI();
-        void updateShapes();
         void updateState();
         void update();
         void renderText(sf::RenderTarget& target);

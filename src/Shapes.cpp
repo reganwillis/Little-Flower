@@ -34,7 +34,7 @@ void Shapes::addShape() {
 
     shape.selected = -1;
 
-    // get random texture
+    // get random shape type
     int num = rand() % 3;
 
     if (num == 0) {
@@ -54,26 +54,24 @@ void Shapes::addShape() {
     }
 
     // get random position
-    shape.sprite.setPosition(static_cast<float>(rand() % static_cast<int>(this->bounds_x - shape.sprite.getGlobalBounds().width)), 0.f);
+    shape.sprite.setPosition(static_cast<float>(rand() % static_cast<int>(this->bounds_x - shape.sprite.getGlobalBounds().width)), 0.f - shape.sprite.getGlobalBounds().height);
 
     this->shapes.push_back(shape);
 }
 
-bool Shapes::updateShapes(float bounds) {
-    bool spawn = false;
-    //std::cout << "update shapes max_shapes: " << this->max_shapes << std::endl;
+bool Shapes::updateShapes() {
+
     if (this->shapes.size() < this->max_shapes) {
         if (this->shape_spawn_timer >= shape_spawn_timer_max) {
-            spawn = true;
             this->shape_spawn_timer = 0.f;
+            return true;
         }
-        else {
-            spawn = false;
-            this->shape_spawn_timer += 1.f;
-        }
+        this->shape_spawn_timer += 1.f;
+
+        return false;
     }
 
-    return spawn;
+    return false;
 }
 
 void Shapes::moveShape(shape_type& shape, float offset_x, float offset_y) {
@@ -105,8 +103,21 @@ position to the new x and y position.
 - float new_y: new input sprite y position
 - float curr_y: current input sprite y position
 - bool movingToMouse: true if input sprite is moving to a mouse position (default=false)
+Returns bool: if shape was aligned return true
 */
-void Shapes::alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y, bool movingToMouse) {
+bool Shapes::alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y, bool movingToMouse) {
+    
+    if (movingToMouse) {
+        // do not move shape to mouse if mouse is not within bounds
+        if (!(new_x > (shape.sprite.getGlobalBounds().width / 2) && 
+            new_x < (this->bounds_x - (shape.sprite.getGlobalBounds().width / 2)) && 
+            new_y > (shape.sprite.getGlobalBounds().height / 2) && 
+            new_y < (this->bounds_y - (shape.sprite.getGlobalBounds().height / 2)))) {
+                return false;
+            }
+    }
+
+    // align shape to new position
     if (new_x > curr_x)
         moveShape(shape, new_x - curr_x, 0.f);
     if (new_x < curr_x)
@@ -115,8 +126,9 @@ void Shapes::alignShape(shape_type& shape, float new_x, float curr_x, float new_
         moveShape(shape, 0.f, new_y - curr_y);
     if (new_y < curr_y)
         moveShape(shape, 0.f, new_y - curr_y);
-}
 
+    return true;
+}
 
 std::vector<Shapes::shape_type>& Shapes::getShapes() {
     return this->shapes;

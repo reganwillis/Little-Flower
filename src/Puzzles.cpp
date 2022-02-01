@@ -10,83 +10,49 @@ void Puzzles::initPuzzles() {
 void Puzzles::initSpots() {
     this->spot_texture.loadFromFile("Images/spot.png");
 
+    this->spots.clear();  // clear out old spots before adding new ones
+
+    float chunks = 1.f/(getNumSpots() + 1);
+    float multiplier = 0.f;
+
     for (int i = 0; i < getNumSpots(); ++i) {
         sf::Sprite spot;
         spot.setTexture(this->spot_texture);
-        // TODO: center on screen
-        spot.setPosition(i * (spot.getGlobalBounds().width + spot.getGlobalBounds().width), 0.f);
+
+        // center spots on screen
+        multiplier = multiplier + chunks;
+        spot.setPosition((this->windowBoundsX * multiplier) - (spot.getGlobalBounds().width / 2), 0.f);
         this->spots.push_back(spot);
     }
 }
 
 Puzzles::Puzzles() {
     this->initPuzzles();
-    this->initSpots();
 }
 
 Puzzles::~Puzzles() {}
 
-//void Puzzles::changeState() {}
-
-// TODO: rewrite simpler
 bool Puzzles::checkEquality(std::vector<Shapes::shape_type>& vec) {
-    //for (size_t i = 0; i < this->shapes.getShapes().size(); ++i) {}
-    //std::cout << "checking equality" << std::endl;
+    if (this->getNumSpots() == 0)
+        return false;
+
     std::vector<int> selected_types;
-    //std::cout << vec.size() << std::endl;
 
     for (size_t i = 0; i < vec.size(); ++i) {
 
-        //std::cout << vec[i].selected << " ";
-
-        if (vec[i].selected != -1) {
-            //std::cout << vec[i].type << std::endl;
+        if (vec[i].selected != -1)
             selected_types.push_back(vec[i].type);
-            //if (prev != this->shapes.getShapes()[i].type)
-            //    return false;
-            //++count;
-        }
-        //prev = this->shapes.getShapes()[i].type;
     }
-    //std::cout << std::endl;
-        //std::cout << count << " == " << this->getNumSpots() << std::endl;
+
     if (selected_types.size() != this->getNumSpots())
         return false;
 
     for (size_t i = 0; i < selected_types.size() - 1; ++i) {
-        if (selected_types[i] != selected_types[i+1]) {
+        if (selected_types[i] != selected_types[i+1])
             return false;
-        }
     }
 
     return true;
-    /*std::vector<shape_type> selected_shapes;
-    for (size_t i = 0; i < this->shapes.getShapes().size(); ++i) {
-        if (this->shapes.getShapes()[i].selected != -1) {
-            selected_shapes.push_back(this->shapes.getShapes()[i]);
-        }
-    }
-    // if correct number of shapes are entered, check equality
-    if (selected_shapes.size() == this->getNumShapes()) {
-        
-        int prev = -1;
-        for (size_t i = 0; i < selected_shapes.size(); ++i) {
-            //if (this->shapes.getShapes()[i].selected == j)
-            //    this->shapes.getShapes()[i].selected = -1;
-        //}
-        
-        //for (int i = 0; i < this->getNumShapes(); ++i) {
-            
-            if (prev != -1) {
-                if (prev != selected_shapes[i].type)
-                    return false;
-            }
-            prev = selected_shapes.type;
-        }
-
-        return true;
-    }
-    return false;*/
 }
 
 int Puzzles::getState() {
@@ -106,7 +72,7 @@ int Puzzles::getNumSpots() {
         return 0;
     
     std::cout << "ERROR: Puzzle state not within bounds (" << this->state <<
-    "). Returning -1 for Puzzles::getSpots()" << std::endl;
+    "). Returning -1 for Puzzles::getNumSpots()" << std::endl;
     return -1;
 }
 
@@ -127,33 +93,22 @@ int Puzzles::getNumShapes() {
     return -1;
 }
 
-sf::Texture& Puzzles::getSpotTexture() {
-    return this->spot_texture;
-}
-
 std::vector<sf::Sprite>& Puzzles::getSpots() {
     return this->spots;
 }
 
 void Puzzles::setState(int s) {
-    std::cout << "setting new state: " << s << std::endl;
 
-    if (s >= 0 && s <= 2) {
+    if (s >= 0 && s <= 3) {
         this->state = s;
-        //changeState();
         initSpots();
-        //if (s == 1)
-        //    this->shapes.setMaxShapes(10);
-        //if (s == 2)
-        //    this->shapes.setMaxShapes(13);
-    }
-    else if (s == 3) {
-        // TODO: game over code
-        this->state = s;
-        //this->spots.clear();
-        std::cout << "game over" << std::endl;
     }
     else
-        std::cout << "ERROR: attempting to set invalid puzzle state (" <<
-        s << ")." << std::endl;
+        std::cout << "ERROR: attempting to set invalid puzzle state (" << s << ")." << std::endl;
+}
+
+void Puzzles::setWindowBounds(float x, float y) {
+    this->windowBoundsX = x;
+    this->windowBoundsY = y;
+    this->initSpots();  // call initSpots after bounds have been set
 }

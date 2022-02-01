@@ -9,11 +9,9 @@
 class Shapes {
     private:
         // vars
-        float shape_spawn_timer;
-        float shape_spawn_timer_max;
+        float shape_spawn_timer, shape_spawn_timer_max;
         unsigned int max_shapes;
-        float bounds_x;
-        float bounds_y;
+        float bounds_x, bounds_y;
 
         // functions
         void initVars();
@@ -35,9 +33,9 @@ class Shapes {
 
         // functions
         void addShape();
-        bool updateShapes(float bounds);
+        bool updateShapes();
         void moveShape(shape_type& shape, float offset_x, float offset_y);
-        void alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y, bool movingToMouse=false);
+        bool alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y, bool movingToMouse=false);
 
         // getters
         std::vector<shape_type>& getShapes();

@@ -8,7 +8,8 @@
 class Puzzles {
     private:
         // vars
-        int state;  // 0, 1 or 2
+        int state;  // 0, 1, 2 or 3
+        float windowBoundsX, windowBoundsY;
 
         const int puzzle_1 = 7;
         const int puzzle_2 = 10;
@@ -24,7 +25,6 @@ class Puzzles {
 
         // list of chosen shapes
         Shapes shapes;
-        //std::vector<Shapes::shape_type> shapes;
 
         void initPuzzles();
         void initSpots();
@@ -34,19 +34,17 @@ class Puzzles {
         virtual ~Puzzles();
 
         // functions
-        //void changeState();
-        //void addShape();
         bool checkEquality(std::vector<Shapes::shape_type>& vec);
 
         // getters
         int getState();
         int getNumSpots();
         int getNumShapes();
-        sf::Texture& getSpotTexture();  // TODO: remove
         std::vector<sf::Sprite>& getSpots();
 
         // setters
         void setState(int s);
+        void setWindowBounds(float x, float y);
 };
 
 #endif
