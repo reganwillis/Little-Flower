@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "Environment.h"
+#include "..\Create-Flower\src\CreateFlower.h"
 #include "LittleFlower.h"
 #include "UI.h"
 #include "Shapes.h"
@@ -40,6 +40,8 @@ class Game {
         sf::Text uiText;
 
         // sprites
+        sf::Texture background;
+        sf::Sprite background_sprite;
         sf::Sprite flower;
         sf::Sprite about;
         sf::Sprite reset;
@@ -50,6 +52,9 @@ class Game {
 
         // mouse positions in view
         sf::Vector2f mousePosition;
+
+        // create flower
+        CreateFlower createFlower;
 
         // little flower (state)
         LittleFlower little_flower;
@@ -71,6 +76,7 @@ class Game {
         void initText();
         void initSprites();
         sf::Vector2f getSpriteCenter(sf::Sprite s);
+        void newGame();
     public:
         // constructors and deconstructors
         Game();

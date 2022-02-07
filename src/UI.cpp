@@ -4,15 +4,16 @@ void UI::initVars() {
     this->button = 0;
     this->visible = false;
     this->mintingEnabled = false;
+    this->reset_flower = false;
 }
 
 void UI::initTextures() {
-    this->background.loadFromFile("./Images/64_64.png");
-    this->about.loadFromFile("./Images/64_64.png");
-    this->reset.loadFromFile("./Images/64_64.png");
-    this->mint_current.loadFromFile("./Images/mint_disabled.png");
-    this->mint.loadFromFile("./Images/64_64.png");
-    this->mint_disabled.loadFromFile("./Images/mint_disabled.png");
+    this->background.loadFromFile("./Images/nav-bar.png");
+    this->about.loadFromFile("./Images/about.png");
+    this->reset.loadFromFile("./Images/reset.png");
+    this->mint_current.loadFromFile("./Images/mint-disabled.png");
+    this->mint.loadFromFile("./Images/mint.png");
+    this->mint_disabled.loadFromFile("./Images/mint-disabled.png");
 }
 
 void UI::initTextStrings() {
@@ -41,6 +42,7 @@ void UI::updateUI() {
     }
     else if (button == 2) {
         current_text = reset_text;
+        this->reset_flower = true;
     }
     else if (button == 3 && mintingEnabled == true) {
         current_text = mint_text;
@@ -98,4 +100,14 @@ void UI::setVisible(bool b) {
 
 void UI::setMintingEnabled(bool b) {
     this->mintingEnabled = b;
+}
+
+bool UI::resetFlower() {
+    if (this->reset_flower == true) {
+        this->button = 0;
+        this->reset_flower = false;
+        return true;
+    }
+
+    return false;
 }

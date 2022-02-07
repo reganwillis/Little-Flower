@@ -4,10 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-// TODO: set background
-// TODO: space out buttons
-// TODO: reset button resets flower
-
 class UI {
     private:
         // vars
@@ -16,6 +12,7 @@ class UI {
         // UI visibility
         bool visible;
         bool mintingEnabled;
+        bool reset_flower;
 
         // UI textures
         sf::Texture background;
@@ -56,6 +53,7 @@ class UI {
         void setButton(int i);
         void setVisible(bool b);
         void setMintingEnabled(bool b);
+        bool resetFlower();
 };
 
 #endif

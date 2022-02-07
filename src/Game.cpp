@@ -1,7 +1,4 @@
 #include "Game.h"
-#include "Environment.h"
-#include "LittleFlower.h"
-#include "Shapes.h"
 
 // initialize game logic variables
 void Game::initVariables() {
@@ -39,6 +36,10 @@ void Game::initText() {
 
 // initialize sprites - assign texture and set position
 void Game::initSprites() {
+    // background
+    this->background.loadFromFile("Images/background.png");
+    this->background_sprite.setTexture(this->background);
+
     this->flower.setTexture(this->little_flower.getTexture());
     this->about.setTexture(this->ui.getAboutTexture());
     this->reset.setTexture(this->ui.getResetTexture());
@@ -64,6 +65,7 @@ void Game::initSprites() {
         this->window->getSize().y - this->mint.getGlobalBounds().height
     );
 
+    // send window bounds to other classes
     this->bounds_x = this->window->getSize().x;
     this->bounds_y = this->window->getSize().y - this->reset.getGlobalBounds().height;
     this->shapes.setBounds(this->bounds_x, this->bounds_y);
@@ -78,6 +80,13 @@ Returns: sf::Vector2f of sprite center along x and y axis.
 sf::Vector2f Game::getSpriteCenter(sf::Sprite s) {
 
     return sf::Vector2f(s.getPosition().x + (s.getGlobalBounds().width / 2), s.getPosition().y + (s.getGlobalBounds().height / 2));
+}
+
+void Game::newGame() {
+    createFlower = CreateFlower();
+    little_flower = LittleFlower();
+    this->puzzles.setState(0);
+    this->shapes.changeState(this->puzzles.getState());
 }
 
 // constructor
@@ -268,11 +277,15 @@ void Game::updateUI() {
         this->ui.setMintingEnabled(false);
     }
     this->ui.updateUI();
+
+    // reset flower and states
+    if (this->ui.resetFlower())
+        this->newGame();
 }
 
 void Game::updateState() {
     if (this->puzzles.checkEquality(this->shapes.getShapes())) {
-        // TODO: pause before switching states
+        // pause before switching states
         if (!this->resume) {
             this->paused = true;
             clock.restart();
@@ -327,6 +340,7 @@ void Game::renderText(sf::RenderTarget& target) {
 }
 
 void Game::renderSprites(sf::RenderTarget& target) {
+    target.draw(this->background_sprite);
     target.draw(this->flower);
 
     for (auto &s : this->puzzles.getSpots())

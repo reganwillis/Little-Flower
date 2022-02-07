@@ -140,7 +140,9 @@ void Shapes::setBounds(float x, float y) {
 }
 
 void Shapes::changeState(int s) {
-    
+
+    if (s == 0)
+        this->max_shapes = 7;
     if (s == 1)
         this->max_shapes = 10;
     if (s == 2)

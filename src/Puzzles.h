@@ -4,6 +4,7 @@
 #include "Shapes.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <iostream>
 
 class Puzzles {
     private:

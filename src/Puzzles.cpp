@@ -1,6 +1,4 @@
 #include "Puzzles.h"
-#include "Shapes.h"
-#include <iostream>
 
 void Puzzles::initPuzzles() {
     // start at the first puzzle
@@ -21,7 +19,7 @@ void Puzzles::initSpots() {
 
         // center spots on screen
         multiplier = multiplier + chunks;
-        spot.setPosition((this->windowBoundsX * multiplier) - (spot.getGlobalBounds().width / 2), 0.f);
+        spot.setPosition((this->windowBoundsX * multiplier) - (spot.getGlobalBounds().width / 2), 10.f);
         this->spots.push_back(spot);
     }
 }
