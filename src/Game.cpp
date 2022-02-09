@@ -142,7 +142,7 @@ void Game::mouseClicks() {
                 this->ui.setButton(3);
             }
 
-            if(!this->msg_box->getSprites().empty() && this->ui.getButton() != 0) {  // TODO: better way to check this
+            if( this->msg_box->isShowing()) {
                 if (this->msg_box->getSprites().at(1).getGlobalBounds().contains(this->mousePosition)) {
                     this->ui.setButton(0);
                     this->msg_box->clear();
@@ -305,8 +305,6 @@ void Game::updateState() {
             if (this->puzzles.getState() == 3) {
                 // TODO: game over code
                 std::cout << "game over" << std::endl;
-                //this->ui.setButton(0);
-                //this->msg_box->clear();
             }
 
             // change state in shapes class
@@ -344,9 +342,7 @@ void Game::update() {
     }
 }
 
-void Game::renderText(sf::RenderTarget& target) {
-    target.draw(this->msg_box->getText());
-}
+void Game::renderText(sf::RenderTarget& target) {}
 
 void Game::renderSprites(sf::RenderTarget& target) {
     target.draw(this->background_sprite);
@@ -369,7 +365,7 @@ void Game::renderSprites(sf::RenderTarget& target) {
     target.draw(this->reset);
     target.draw(this->mint);
 
-    if (!this->msg_box->getSprites().empty() && this->ui.getButton() != 0) {
+    if (this->msg_box->isShowing()) {
         for (auto &s : this->msg_box->getSprites()) {
             target.draw(s);
         }

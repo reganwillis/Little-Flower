@@ -10,27 +10,24 @@
 
 class MessageBox {
     private:
-        //vars
-        sf::Font font;
-        sf::Text text;
-        std::vector<sf::Sprite> sprites;
-        
-        // message box textures & sprites
+        bool show;
+        int type;
+
+        // message box textures
         sf::Texture box;
-        sf::Sprite box_sprite;
         sf::Texture okay_button;
         sf::Texture yes_button;
         sf::Texture no_button;
-        sf::Sprite okay_button_sprite;
-        sf::Sprite yes_button_sprite;
-        sf::Sprite no_button_sprite;
 
+        //vars
+        std::vector<sf::Sprite> sprites;
+    
         // functions
-        void initMessageBox(int type);
-        void initText(std::string t);
+        void initTextures();
+        void initMessageBox();
     public:
         // constructor and deconstructor
-        MessageBox(std::string t="", int type=0);  // type: 0-okay, 1-yes or no
+        MessageBox(int type=0, bool show=false);  // type: 0-about, 1-reset, 2-mint
         virtual ~MessageBox();
 
         // functions
@@ -38,7 +35,7 @@ class MessageBox {
 
         // getters
         std::vector<sf::Sprite>& getSprites();
-        sf::Text getText();
+        bool isShowing();
 };
 
 #endif

@@ -23,17 +23,11 @@ class UI {
         sf::Texture mint;
         sf::Texture mint_disabled;
 
-        // UI text
-        std::string about_text;
-        std::string reset_text;
-        std::string mint_text;
-
         MessageBox* msgBox = new MessageBox();
 
         // funcitons
         void initVars();
         void initTextures();
-        void initTextStrings();
     public:
         // constructor and deconstructor
         UI();

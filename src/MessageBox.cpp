@@ -1,50 +1,68 @@
 #include "MessageBox.h"
 
-void MessageBox::initMessageBox(int type) {
-    this->box.loadFromFile("./Images/64_64.png");
-    this->box_sprite.setTexture(this->box);
-    this->sprites.push_back(this->box_sprite);
+void MessageBox::initTextures() {
 
-    if (type == 0) {
-        this->okay_button.loadFromFile("./Images/64_64.png");
-        this->okay_button_sprite.setTexture(this->okay_button);
-        this->okay_button_sprite.setPosition(90, 90);
-        this->sprites.push_back(this->okay_button_sprite);
+    if (this->type == 0) {
+        this->box.loadFromFile("./Images/about_message_box.png");
+        this->okay_button.loadFromFile("./Images/okay_button.png");
     }
-    if (type == 1) {
-        this->no_button.loadFromFile("./Images/64_64.png");
-        this->no_button_sprite.setTexture(this->no_button);
-        this->no_button_sprite.setPosition(90, 90);
-        this->sprites.push_back(this->no_button_sprite);
-
-        this->yes_button.loadFromFile("./Images/64_64.png");
-        this->yes_button_sprite.setTexture(this->yes_button);
-        this->yes_button_sprite.setPosition(160, 90);
-        this->sprites.push_back(this->yes_button_sprite);
+    else if (this->type == 1) {
+        this->box.loadFromFile("./Images/reset_message_box.png");
+        this->yes_button.loadFromFile("./Images/yes_button.png");
+        this->no_button.loadFromFile("./Images/no_button.png");
+    }
+    else if (this->type == 2) {
+        this->box.loadFromFile("./Images/mint_message_box.png");
+        this->yes_button.loadFromFile("./Images/yes_button.png");
+        this->no_button.loadFromFile("./Images/no_button.png");
     }
 }
 
-void MessageBox::initText(std::string t) {
-    this->font.loadFromFile("Fonts/Anonymous.ttf");
-    this->text.setFont(this->font);
-    this->text.setCharacterSize(12);
-    this->text.setPosition(0, 40);
-    this->text.setString(t);
+void MessageBox::initMessageBox() {
+
+    if (type == 0) {  // about message box
+        sf::Sprite message_box(this->box);
+        sf::Sprite okay_button_sprite(this->okay_button);
+
+        message_box.setScale(0.5f, 0.5f);
+
+        message_box.setPosition(360/2 - message_box.getGlobalBounds().width/2, 200);
+        okay_button_sprite.setPosition((360/2) - (okay_button_sprite.getGlobalBounds().width / 2), 280);
+        
+        this->sprites.push_back(message_box);
+        this->sprites.push_back(okay_button_sprite);
+    }
+    else if (type == 1 || type == 2) {  // reset message box or mint message box
+        sf::Sprite message_box(this->box);
+        sf::Sprite yes_button_sprite(this->yes_button);
+        sf::Sprite no_button_sprite(this->no_button);
+
+        message_box.setScale(0.5f, 0.5f);
+
+        message_box.setPosition(360/2 - message_box.getGlobalBounds().width/2, 200);
+        yes_button_sprite.setPosition((360/2) - (yes_button_sprite.getGlobalBounds().width + 5), 280);
+        no_button_sprite.setPosition((360/2) + (5), 280);
+        
+        this->sprites.push_back(message_box);
+        this->sprites.push_back(no_button_sprite);
+        this->sprites.push_back(yes_button_sprite);
+    }
 }
 
-MessageBox::MessageBox(std::string t, int type) {
+MessageBox::MessageBox(int type, bool show) {
+    this->show = show;
+    this->type = type;
 
-    if (t != "") {
-        initText(t);
-        initMessageBox(type);
+    if (this->show) {
+        initTextures();
+        initMessageBox();
     }
 }
 
 MessageBox::~MessageBox() {}
 
 void MessageBox::clear() {
-    this->text.setString("");
-    //this->box.
+    this->show = false;
     this->sprites.clear();
 }
 
@@ -52,6 +70,6 @@ std::vector<sf::Sprite>& MessageBox::getSprites() {
     return this->sprites;
 }
 
-sf::Text MessageBox::getText() {
-    return this->text;
+bool MessageBox::isShowing() {
+    return this->show;
 }

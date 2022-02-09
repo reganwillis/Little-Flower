@@ -17,16 +17,9 @@ void UI::initTextures() {
     this->mint_disabled.loadFromFile("./Images/mint-disabled.png");
 }
 
-void UI::initTextStrings() {
-    this->about_text = "Little Flower made by Regrow Games <3";
-    this->reset_text = "Are you sure you want to start over with a new flower? (Current flower will be lost)";
-    this->mint_text = "Mint Little Flower as an NFT on the Tezos blockchain.";
-}
-
 UI::UI() {
     this->initVars();
     this->initTextures();
-    this->initTextStrings();
 }
 
 UI::~UI() {}
@@ -43,22 +36,19 @@ void UI::updateUI() {
         this->msgBox->clear();
     }
     else if (button == 1) {
-        this->msgBox = new MessageBox(about_text);
+        if (!this->msgBox->isShowing())
+            this->msgBox = new MessageBox(0, true);
     }
     else if (button == 2) {
         this->reset_flower = true;
 
-        if (this->msgBox->getSprites().empty()) {  // TODO: is there a better way to prevent spawning new message boxes constantly
-            this->msgBox->clear();
-            this->msgBox = new MessageBox(reset_text, 1);
-        }
+        if (!this->msgBox->isShowing())
+            this->msgBox = new MessageBox(1, true);
     }
     else if (button == 3 && mintingEnabled == true) {
 
-        if (this->msgBox->getSprites().empty()) {
-            this->msgBox->clear();
-            this->msgBox = new MessageBox(mint_text, 1);
-        }
+        if (!this->msgBox->isShowing())
+            this->msgBox = new MessageBox(2, true);
     }
     else if (button == 3 && mintingEnabled == false) {
         this->msgBox->clear();
