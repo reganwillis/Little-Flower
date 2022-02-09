@@ -5,8 +5,10 @@
 :: -Wall - turn on most warnings
 :: -c - output an object file
 :: -I<include path> - specify an include directory
+CALL g++ -Wall -c src\MessageBox.h -IC:\SFML-gcc\SFML-2.5.1\include
+CALL g++ -Wall -c src\MessageBox.cpp -o src\MessageBox.o -IC:\SFML-gcc\SFML-2.5.1\include
 CALL g++ -Wall -c src\Game.h -IC:\SFML-gcc\SFML-2.5.1\include
-CALL g++ -Wall -c src\Game.cpp -o src\Game.o -IC:\SFML-gcc\SFML-2.5.1\include
+CALL g++ -c src\Game.cpp -o src\Game.o -IC:\SFML-gcc\SFML-2.5.1\include
 CALL g++ -Wall -c src\Shapes.h -IC:\SFML-gcc\SFML-2.5.1\include
 CALL g++ -Wall -c src\Shapes.cpp -o src\Shapes.o -IC:\SFML-gcc\SFML-2.5.1\include
 CALL g++ -Wall -c src\Puzzles.h -IC:\SFML-gcc\SFML-2.5.1\include
@@ -23,7 +25,7 @@ CALL g++ -Wall -c src\Environment.cpp -o src\Environment.o -IC:\SFML-gcc\SFML-2.
 
 :: Link modules into single executable
 :: -L<library path> - specify a lib directory
-CALL g++ -Wall src\main.o src\Game.o src\Puzzles.o src\Shapes.o src\UI.o Create-Flower\src\CreateFlower.o src\LittleFlower.o src\Environment.o -o little-flower -LC:\SFML-gcc\SFML-2.5.1\lib -lsfml-graphics -lsfml-window -lsfml-system
+CALL g++ -Wall src\main.o src\MessageBox.o src\Game.o src\Puzzles.o src\Shapes.o src\UI.o Create-Flower\src\CreateFlower.o src\LittleFlower.o src\Environment.o -o little-flower -LC:\SFML-gcc\SFML-2.5.1\lib -lsfml-graphics -lsfml-window -lsfml-system
 
 :: Run executable
 CALL little-flower.exe

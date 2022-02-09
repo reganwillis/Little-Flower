@@ -5,6 +5,7 @@
 #include <vector>
 #include <ctime>
 
+// use class object instead of struct like in MessageBox
 
 class Shapes {
     private:

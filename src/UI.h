@@ -1,8 +1,10 @@
 #ifndef UI_H
 #define UI_H
 
+#include "MessageBox.h"
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <vector>
 
 class UI {
     private:
@@ -10,7 +12,6 @@ class UI {
         int button;  // (0, 1, 2, 3)
 
         // UI visibility
-        bool visible;
         bool mintingEnabled;
         bool reset_flower;
 
@@ -23,10 +24,11 @@ class UI {
         sf::Texture mint_disabled;
 
         // UI text
-        std::string current_text;
         std::string about_text;
         std::string reset_text;
         std::string mint_text;
+
+        MessageBox* msgBox = new MessageBox();
 
         // funcitons
         void initVars();
@@ -44,14 +46,12 @@ class UI {
         sf::Texture& getAboutTexture();
         sf::Texture& getResetTexture();
         sf::Texture& getMintTexture();
-        std::string getTextString();
-        std::string getAboutTextString();
-        std::string getResetTextString();
-        std::string getMintTextString();
+        int getButton();
+        bool getMintingEnabled();
+        MessageBox* getMsgBox();
 
         // setters
         void setButton(int i);
-        void setVisible(bool b);
         void setMintingEnabled(bool b);
         bool resetFlower();
 };

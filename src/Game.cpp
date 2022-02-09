@@ -20,19 +20,7 @@ void Game::initFonts() {
     this->font.loadFromFile("Fonts/37456_TERMINAL.ttf");
 }
 
-void Game::initText() {
-    //this->littleFlowerText.setFont(this->font);
-    //this->littleFlowerText.setCharacterSize(24);
-    //this->littleFlowerText.setFillColor(sf::Color::Black);  // default
-    //this->littleFlowerText.setString("text failed to render");
-
-    this->uiText.setFont(this->font);
-    this->uiText.setCharacterSize(12);
-    this->uiText.setFillColor(sf::Color::Black);  // default
-    //this->uiText.setPosition(this->window->getSize().x / 2) - (this->uiText.getPosition().x / 2), this->window->getSize().y - this->uiText.getPosition().y)
-    this->uiText.setPosition(0, 40);
-    this->uiText.setString("text failed to render");
-}
+void Game::initText() {}
 
 // initialize sprites - assign texture and set position
 void Game::initSprites() {
@@ -144,14 +132,44 @@ void Game::mouseClicks() {
             this->mouseHeld = true;
 
             // display UI text depending on button clicked
-            if(this->about.getGlobalBounds().contains(this->mousePosition)) {
+            if (this->about.getGlobalBounds().contains(this->mousePosition)) {
                 this->ui.setButton(1);
             }
-            if(this->reset.getGlobalBounds().contains(this->mousePosition)) {
+            if (this->reset.getGlobalBounds().contains(this->mousePosition)) {
                 this->ui.setButton(2);
             }
-            if(this->mint.getGlobalBounds().contains(this->mousePosition)) {
+            if (this->mint.getGlobalBounds().contains(this->mousePosition)) {
                 this->ui.setButton(3);
+            }
+
+            if(!this->msg_box->getSprites().empty() && this->ui.getButton() != 0) {  // TODO: better way to check this
+                if (this->msg_box->getSprites().at(1).getGlobalBounds().contains(this->mousePosition)) {
+                    this->ui.setButton(0);
+                    this->msg_box->clear();
+                }
+
+                if (this->msg_box->getSprites().size() > 2) {  // if there is a second button
+
+                    if (this->msg_box->getSprites().at(2).getGlobalBounds().contains(this->mousePosition)) {  // if 2nd button is clicked
+
+                        if (this->ui.getButton() == 2) {
+                            // reset action
+                            std::cout << "...reseting";
+                            // reset flower and states
+                            if (this->ui.resetFlower())
+                                this->newGame();
+                            this->msg_box->clear();
+                            this->ui.setButton(0);
+                        }
+
+                        if (this->ui.getButton() == 3 && this->ui.getMintingEnabled()) {
+                            // mint action
+                            std::cout << "...minting";
+                            this->msg_box->clear();
+                            this->ui.setButton(0);
+                        }
+                    }
+                }
             }
         }
 
@@ -246,15 +264,7 @@ void Game::mouseClicks() {
     }
 }
 
-void Game::updateText() {
-    //std::stringstream stream;
-    //stream << this->little_flower.getTextString();
-    //this->littleFlowerText.setString(stream.str());
-
-    std::stringstream uiStream;
-    uiStream << this->ui.getTextString();
-    this->uiText.setString(uiStream.str());
-}
+void Game::updateText() {}
 
 void Game::updateSprites() {
     this->flower.setTexture(this->little_flower.getTexture());
@@ -270,17 +280,15 @@ void Game::updateLittleFlower() {
 }
 
 void Game::updateUI() {
-    if (this->little_flower.getState() == 3) {
-        this->ui.setMintingEnabled(true);
-    }
-    else {
-        this->ui.setMintingEnabled(false);
-    }
-    this->ui.updateUI();
 
-    // reset flower and states
-    if (this->ui.resetFlower())
-        this->newGame();
+    if (this->little_flower.getState() == 3)
+        this->ui.setMintingEnabled(true);
+    else
+        this->ui.setMintingEnabled(false);
+
+    this->ui.updateUI();
+    if (this->ui.getButton() != 0)
+        this->msg_box = this->ui.getMsgBox();
 }
 
 void Game::updateState() {
@@ -297,6 +305,8 @@ void Game::updateState() {
             if (this->puzzles.getState() == 3) {
                 // TODO: game over code
                 std::cout << "game over" << std::endl;
+                //this->ui.setButton(0);
+                //this->msg_box->clear();
             }
 
             // change state in shapes class
@@ -335,8 +345,7 @@ void Game::update() {
 }
 
 void Game::renderText(sf::RenderTarget& target) {
-    target.draw(this->littleFlowerText);
-    target.draw(this->uiText);
+    target.draw(this->msg_box->getText());
 }
 
 void Game::renderSprites(sf::RenderTarget& target) {
@@ -359,6 +368,12 @@ void Game::renderSprites(sf::RenderTarget& target) {
     target.draw(this->about);
     target.draw(this->reset);
     target.draw(this->mint);
+
+    if (!this->msg_box->getSprites().empty() && this->ui.getButton() != 0) {
+        for (auto &s : this->msg_box->getSprites()) {
+            target.draw(s);
+        }
+    }
 }
 
 // renders game objects
@@ -367,8 +382,8 @@ void Game::render() {
     this->window->clear(sf::Color::White);
 
     // draw objects
-    this->renderText(*this->window);
     this->renderSprites(*this->window);
+    this->renderText(*this->window);
 
     this->window->display();
 }

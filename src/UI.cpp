@@ -1,8 +1,9 @@
 #include "UI.h"
 
+// TODO: reorganize repeated functions
+
 void UI::initVars() {
     this->button = 0;
-    this->visible = false;
     this->mintingEnabled = false;
     this->reset_flower = false;
 }
@@ -31,34 +32,42 @@ UI::UI() {
 UI::~UI() {}
 
 void UI::updateUI() {
-    //if (this->visible) {}
-    //else {}
-
-    if (button == 0) {
-        current_text = "";
-    }
-    else if (button == 1) {
-        current_text = about_text;
-    }
-    else if (button == 2) {
-        current_text = reset_text;
-        this->reset_flower = true;
-    }
-    else if (button == 3 && mintingEnabled == true) {
-        current_text = mint_text;
-    }
-    else if (button == 3 && mintingEnabled == false) {
-        current_text = "";
-    }
-    else {
-        current_text = "ERROR: button var out of bounds";
-    }
-
     if (this->mintingEnabled) {
         this->mint_current = this->mint;
     }
     else {
         this->mint_current = this->mint_disabled;
+    }
+
+    if (button == 0) {
+        this->msgBox->clear();
+    }
+    else if (button == 1) {
+        this->msgBox = new MessageBox(about_text);
+    }
+    else if (button == 2) {
+        this->reset_flower = true;
+
+        if (this->msgBox->getSprites().empty()) {  // TODO: is there a better way to prevent spawning new message boxes constantly
+            this->msgBox->clear();
+            this->msgBox = new MessageBox(reset_text, 1);
+        }
+    }
+    else if (button == 3 && mintingEnabled == true) {
+
+        if (this->msgBox->getSprites().empty()) {
+            this->msgBox->clear();
+            this->msgBox = new MessageBox(mint_text, 1);
+        }
+    }
+    else if (button == 3 && mintingEnabled == false) {
+        this->msgBox->clear();
+        this->button = 0;
+    }
+    else {
+        std::cout << "ERROR: button var out of bounds\n";
+        this->msgBox->clear();
+        this->button = 0;
     }
 }
 
@@ -74,28 +83,20 @@ sf::Texture& UI::getMintTexture() {
     return this->mint_current;
 }
 
-std::string UI::getTextString() {
-    return this->current_text;
+int UI::getButton() {
+    return button;
 }
 
-std::string UI::getAboutTextString() {
-    return this->about_text;
+bool UI::getMintingEnabled() {
+    return mintingEnabled;
 }
 
-std::string UI::getResetTextString() {
-    return this->reset_text;
-}
-
-std::string UI::getMintTextString() {
-    return this->mint_text;
+MessageBox* UI::getMsgBox() {
+    return this->msgBox;
 }
 
 void UI::setButton(int i) {
     button = i;
-}
-
-void UI::setVisible(bool b) {
-    this->visible = b;
 }
 
 void UI::setMintingEnabled(bool b) {

@@ -6,6 +6,7 @@
 #include "UI.h"
 #include "Shapes.h"
 #include "Puzzles.h"
+#include "MessageBox.h"
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -61,6 +62,7 @@ class Game {
 
         // UI
         UI ui;
+        MessageBox* msg_box = new MessageBox();
 
         // Shapes
         Shapes shapes;
