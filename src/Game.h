@@ -67,7 +67,7 @@ class Game {
 
         // Shapes
         Shapes shapes;
-        Shapes::shape_type shape;
+        Shapes::shape shape;
 
         // puzzles
         Puzzles puzzles;

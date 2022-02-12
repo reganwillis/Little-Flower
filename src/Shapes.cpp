@@ -30,7 +30,7 @@ Shapes::Shapes() {
 Shapes::~Shapes() {}
 
 void Shapes::addShape() {
-    shape_type shape;
+    shape shape;
 
     shape.selected = -1;
 
@@ -74,7 +74,7 @@ bool Shapes::updateShapes() {
     return false;
 }
 
-void Shapes::moveShape(shape_type& shape, float offset_x, float offset_y) {
+void Shapes::moveShape(shape& shape, float offset_x, float offset_y) {
 
     if (offset_x < 0.f) {
         if (shape.sprite.getPosition().x > 0.f)
@@ -97,7 +97,7 @@ void Shapes::moveShape(shape_type& shape, float offset_x, float offset_y) {
 /*
 This function moves the input sprite from it's current x and y 
 position to the new x and y position.
-- shape_type& shape: input sprite
+- shape& shape: input sprite
 - float new_x: new input sprite x position
 - float curr_x: current input sprite x position
 - float new_y: new input sprite y position
@@ -105,7 +105,7 @@ position to the new x and y position.
 - bool movingToMouse: true if input sprite is moving to a mouse position (default=false)
 Returns bool: if shape was aligned return true
 */
-bool Shapes::alignShape(shape_type& shape, float new_x, float curr_x, float new_y, float curr_y, bool movingToMouse) {
+bool Shapes::alignShape(shape& shape, float new_x, float curr_x, float new_y, float curr_y, bool movingToMouse) {
     
     if (movingToMouse) {
         // do not move shape to mouse if mouse is not within bounds
@@ -130,7 +130,7 @@ bool Shapes::alignShape(shape_type& shape, float new_x, float curr_x, float new_
     return true;
 }
 
-std::vector<Shapes::shape_type>& Shapes::getShapes() {
+std::vector<Shapes::shape>& Shapes::getShapes() {
     return this->shapes;
 }
 

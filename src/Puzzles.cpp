@@ -30,7 +30,7 @@ Puzzles::Puzzles() {
 
 Puzzles::~Puzzles() {}
 
-bool Puzzles::checkEquality(std::vector<Shapes::shape_type>& vec) {
+bool Puzzles::checkEquality(std::vector<Shapes::shape>& vec) {
     if (this->getNumSpots() == 0)
         return false;
 

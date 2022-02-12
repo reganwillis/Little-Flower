@@ -35,7 +35,7 @@ class Puzzles {
         virtual ~Puzzles();
 
         // functions
-        bool checkEquality(std::vector<Shapes::shape_type>& vec);
+        bool checkEquality(std::vector<Shapes::shape>& vec);
 
         // getters
         int getState();
