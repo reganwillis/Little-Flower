@@ -61,6 +61,10 @@ void UI::updateUI() {
     }
 }
 
+sf::Texture& UI::getBackgroundTexture() {
+    return this->background;
+}
+
 sf::Texture& UI::getAboutTexture() {
     return this->about;
 }

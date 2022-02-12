@@ -37,6 +37,7 @@ class UI {
         void updateUI();
 
         // getters
+        sf::Texture& getBackgroundTexture();
         sf::Texture& getAboutTexture();
         sf::Texture& getResetTexture();
         sf::Texture& getMintTexture();

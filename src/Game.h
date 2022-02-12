@@ -44,6 +44,7 @@ class Game {
         sf::Texture background;
         sf::Sprite background_sprite;
         sf::Sprite flower;
+        sf::Sprite menu_background;
         sf::Sprite about;
         sf::Sprite reset;
         sf::Sprite mint;

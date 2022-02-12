@@ -29,6 +29,7 @@ void Game::initSprites() {
     this->background_sprite.setTexture(this->background);
 
     this->flower.setTexture(this->little_flower.getTexture());
+    this->menu_background.setTexture(this->ui.getBackgroundTexture());
     this->about.setTexture(this->ui.getAboutTexture());
     this->reset.setTexture(this->ui.getResetTexture());
     this->mint.setTexture(this->ui.getMintTexture());
@@ -37,6 +38,8 @@ void Game::initSprites() {
         (this->window->getSize().x / 2) - (this->flower.getGlobalBounds().width / 2),
         this->window->getSize().y - (this->flower.getGlobalBounds().height + this->about.getGlobalBounds().height)
     );
+
+    this->menu_background.setPosition(0, this->window->getSize().y - this->about.getGlobalBounds().height);
 
     this->about.setPosition(
         (this->window->getSize().x * 0.25) - (this->about.getGlobalBounds().width / 2),
@@ -361,6 +364,7 @@ void Game::renderSprites(sf::RenderTarget& target) {
         for (auto &s : this->shapes.getShapes())
             target.draw(s.sprite);
     }
+    target.draw(this->menu_background);
     target.draw(this->about);
     target.draw(this->reset);
     target.draw(this->mint);
