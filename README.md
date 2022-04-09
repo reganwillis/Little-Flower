@@ -19,6 +19,7 @@ use command `mingw32-make` to make
 * example error handling: 
     std::cout << "ERROR: Puzzle state not within bounds (" << this->state << "). Returning -1 for Puzzles::getNumShapes()" << std::endl;
     return -1;
+* use enums throughout code
 
 ## Development
 I used [this tutorial](https://code.visualstudio.com/docs/languages/cpp#_example-install-mingwx64) and [this tutorial](https://www.msys2.org/) to install a C++ compiler and add it to the path. I compiled the program with `g++ -Wall -c main.cpp` and ran it with `a.exe`.
@@ -69,3 +70,4 @@ run new app:
     * [C++ & SFML - Simple 2D Games - GAME 1 / PART 6](https://www.youtube.com/watch?v=K8pMdCJtdCY)
     * [C++ & SFML - Simple 2D Games - GAME 1 / PART 7](https://www.youtube.com/watch?v=oDOgquwEf38)
     * [C++ & SFML - Simple 2D Games - GAME 1 / PART 8](https://www.youtube.com/watch?v=uaB3oK62T34)
+* [opening a URL from C++](https://stackoverflow.com/questions/17347950/how-do-i-open-a-url-from-c)

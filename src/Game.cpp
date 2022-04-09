@@ -1,4 +1,6 @@
 #include "Game.h"
+#include <windows.h>
+#include <shellapi.h>
 
 // initialize game logic variables
 void Game::initVariables() {
@@ -157,7 +159,7 @@ void Game::mouseClicks() {
 
                         if (this->ui.getButton() == 2) {
                             // reset action
-                            std::cout << "...reseting";
+                            std::cout << "...resetting";
                             // reset flower and states
                             if (this->ui.resetFlower())
                                 this->newGame();
@@ -168,6 +170,8 @@ void Game::mouseClicks() {
                         if (this->ui.getButton() == 3 && this->ui.getMintingEnabled()) {
                             // mint action
                             std::cout << "...minting";
+                            // open dapp
+                            ShellExecute(0, 0, "http://localhost:9000/", 0, 0, SW_SHOW);
                             this->msg_box->clear();
                             this->ui.setButton(0);
                         }
