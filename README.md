@@ -1,73 +1,28 @@
 # Little Flower
-Little Flower Video Game for PC written in C++.
-See the [Game Design Document](https://www.notion.so/reganwillis/Little-Flower-Puzzles-NFT-Version-Game-Design-Document-3682585ab6324d10b09851c36116ecfa).
+Little Flower Video Game for Windows PC written in C++. Grow a randomly generated flower and mint it on the Tezos blockchain.
 
 ## Included Repositories
-* [Create-Flower](https://github.com/reganwillis/Randomize-Pixel-Art)
+* [Create-Flower](https://github.com/reganwillis/Create-Flower)
 
 ## Libraries
 * [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/)
-* Something for CSPRNG
 
 ## Usage
-TODO: add a makefile
-use command `mingw32-make` to make
+To play the game, download the installer from the [game website](https://reganwillis.github.io/Little-Flower/).
 
-# Clean Up TODO
-* which functions need const const
-* bounds sharing between Game and Shape may be inefficient
-* example error handling: 
-    std::cout << "ERROR: Puzzle state not within bounds (" << this->state << "). Returning -1 for Puzzles::getNumShapes()" << std::endl;
-    return -1;
-* use enums throughout code
+### Development
+For developers, clone this repository and use the batch script instructions below to create and run the EXE. All libraries will need to be downloaded and all .dll files from SFML/bin need to be added to the project folder.
 
-## Development
-I used [this tutorial](https://code.visualstudio.com/docs/languages/cpp#_example-install-mingwx64) and [this tutorial](https://www.msys2.org/) to install a C++ compiler and add it to the path. I compiled the program with `g++ -Wall -c main.cpp` and ran it with `a.exe`.
-
-I downloaded [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/) for a simple graphics interface. Now the compilation and run instructions must include paths to the new library.
-TODO in future game: use OpenGL instead.
-
-### Batch Script
-Use the command `run` in the windows command line to run the batch script. This will run the commands below
-TODO: make file? 
+#### Batch Script
+Use the command `run` in the windows command line to run the batch script. This will run the commands to compile files, link them, and run the EXE as shown in the example below:
 
 compile the program:
-`g++ -c main.cpp -IC:\SFML-gcc\SFML-2.5.1\include`
-creates: `main.o`
+`g++ -Wall -c src\main.cpp -o src\main.o -IC:\SFML-gcc\SFML-2.5.1\include`
+creates: `src\main.o`
 
 link the compiled file to the SFML libraries
-`g++ main.o -o little-flower -LC:\SFML-gcc\SFML-2.5.1\lib -lsfml-graphics -lsfml-window -lsfml-system`
+`g++ src\main.o -o little-flower -LC:\SFML-gcc\SFML-2.5.1\lib -lsfml-graphics -lsfml-window -lsfml-system`
 creates: `little-flower.exe`
 
 run new app:
 `little-flower.exe`
-
-## Error Log
-* Error: SFML: undefined reference to _imp_ 
-    * [Solution: download SFML GCC instead of SFML Visual C++](https://stackoverflow.com/questions/48661676/sfml-undefined-reference-to-imp)
-* Error: The program can't start because sfml-graphics-2.dll is missing from your computer. Try reinstalling the program to fix this problem.
-    * [Solution: Copy all dll files from main SFML > bin directory and paste them into your project folder.](https://stackoverflow.com/questions/29242013/sfml-2-1-and-codeblocks-error-sfml-graphics-2-dll-is-missing-from-your-computer/44126418)
-* Error: C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: main.o:main.cpp:(.text+0x18): undefined reference to `Game::Game()'
-    * looking for Game.h in the c++ folder instead of the current directory
-    * add new cpp file to g++ compilation
-    * add new output file (.o) to linking g++ command
-* Error: invalid use of 'this' in non-member function
-    * [Solution: declare cpp functions with class name in front of function name](https://stackoverflow.com/questions/9047671/invalid-use-of-this-in-non-member-function)
-* Texture "white square problem"
-    * [pass texture by reference](https://stackoverflow.com/questions/19546372/c-having-trouble-returning-sftexture)
-* Error: 'struct x' is private within this context
-    * move struct to public variable
-
-## Resources
-* [g++ cheatsheet](https://bytes.usc.edu/cs104/wiki/gcc/)
-* [compiling a SFML program](https://www.sfml-dev.org/tutorials/2.1/start-linux.php#compiling-a-sfml-program)
-* tutorial 1:
-    * [C++ & SFML - Simple 2D Games - GAME 1 / PART 1](https://www.youtube.com/watch?v=C06eGdy7C6k)
-    * [C++ & SFML - Simple 2D Games - GAME 1 / PART 2](https://www.youtube.com/watch?v=kxb0GvBNOGU)
-    * [C++ & SFML - Simple 2D Games - GAME 1 / PART 3](https://www.youtube.com/watch?v=LnMO84T7myM)
-    * [C++ & SFML - Simple 2D Games - GAME 1 / PART 4](https://www.youtube.com/watch?v=Y4fbvFjtVig)
-    * [C++ & SFML - Simple 2D Games - GAME 1 / PART 5](https://www.youtube.com/watch?v=Sil75qOxCW0)
-    * [C++ & SFML - Simple 2D Games - GAME 1 / PART 6](https://www.youtube.com/watch?v=K8pMdCJtdCY)
-    * [C++ & SFML - Simple 2D Games - GAME 1 / PART 7](https://www.youtube.com/watch?v=oDOgquwEf38)
-    * [C++ & SFML - Simple 2D Games - GAME 1 / PART 8](https://www.youtube.com/watch?v=uaB3oK62T34)
-* [opening a URL from C++](https://stackoverflow.com/questions/17347950/how-do-i-open-a-url-from-c)

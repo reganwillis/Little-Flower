@@ -1,7 +1,5 @@
 #include "UI.h"
 
-// TODO: reorganize repeated functions
-
 void UI::initVars() {
     this->button = 0;
     this->mintingEnabled = false;

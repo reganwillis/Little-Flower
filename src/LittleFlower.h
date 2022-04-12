@@ -25,17 +25,9 @@ class LittleFlower {
         sf::Texture little_flower_stage_2_texture;
         sf::Texture little_flower_stage_3_texture;
 
-        // little flower state text
-        std::string current_text;
-        std::string state_0;
-        std::string state_1;
-        std::string state_2;
-        std::string state_3;
-
         // functions
         void initState();
         void initTextures();
-        void initTextStrings();
     public:
         // constructor and deconstructor
         LittleFlower();
@@ -43,12 +35,10 @@ class LittleFlower {
 
         // functions
         void updateTexture();
-        void updateTextString();
 
         // getters
         const int getState() const;
         sf::Texture& getTexture();
-        std::string getTextString();
 
         // setters
         void setState(int state);

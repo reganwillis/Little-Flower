@@ -35,11 +35,6 @@ class Game {
         sf::RenderWindow* window;
         sf::VideoMode videoMode;
 
-        // text
-        sf::Font font;
-        sf::Text littleFlowerText;
-        sf::Text uiText;
-
         // sprites
         sf::Texture background;
         sf::Sprite background_sprite;
@@ -75,8 +70,6 @@ class Game {
         // functions
         void initVariables();
         void initWindow();
-        void initFonts();
-        void initText();
         void initSprites();
         sf::Vector2f getSpriteCenter(sf::Sprite s);
         void newGame();
@@ -93,13 +86,11 @@ class Game {
         void pollEvents();
         void updateMousePositions();
         void mouseClicks();
-        void updateText();
         void updateSprites();
         void updateLittleFlower();
         void updateUI();
         void updateState();
         void update();
-        void renderText(sf::RenderTarget& target);
         void renderSprites(sf::RenderTarget& target);
         void render();
 };

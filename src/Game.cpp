@@ -18,41 +18,31 @@ void Game::initWindow() {
     this->window->setFramerateLimit(60);
 }
 
-void Game::initFonts() {
-    this->font.loadFromFile("Fonts/37456_TERMINAL.ttf");
-}
-
-void Game::initText() {}
-
 // initialize sprites - assign texture and set position
 void Game::initSprites() {
-    // background
+    // set textures
     this->background.loadFromFile("Images/background.png");
     this->background_sprite.setTexture(this->background);
-
     this->flower.setTexture(this->little_flower.getTexture());
     this->menu_background.setTexture(this->ui.getBackgroundTexture());
     this->about.setTexture(this->ui.getAboutTexture());
     this->reset.setTexture(this->ui.getResetTexture());
     this->mint.setTexture(this->ui.getMintTexture());
 
+    // set positions
     this->flower.setPosition(
         (this->window->getSize().x / 2) - (this->flower.getGlobalBounds().width / 2),
         this->window->getSize().y - (this->flower.getGlobalBounds().height + this->about.getGlobalBounds().height)
     );
-
     this->menu_background.setPosition(0, this->window->getSize().y - this->about.getGlobalBounds().height);
-
     this->about.setPosition(
         (this->window->getSize().x * 0.25) - (this->about.getGlobalBounds().width / 2),
         this->window->getSize().y - this->about.getGlobalBounds().height
     );
-
     this->reset.setPosition(
         (this->window->getSize().x * 0.5) - (this->reset.getGlobalBounds().width / 2),
         this->window->getSize().y - this->reset.getGlobalBounds().height
     );
-
     this->mint.setPosition(
         (this->window->getSize().x * 0.75) - (this->mint.getGlobalBounds().width / 2),
         this->window->getSize().y - this->mint.getGlobalBounds().height
@@ -67,14 +57,15 @@ void Game::initSprites() {
 
 /*
 This function gets the center of a given sprite.
-- sf::Sprite s: sprite to get the center of.
-Returns: sf::Vector2f of sprite center along x and y axis.
+    Params  : sf::Sprite s - sprite to get the center of.
+    Returns : sf::Vector2f - sprite center along x and y axis.
 */
 sf::Vector2f Game::getSpriteCenter(sf::Sprite s) {
 
     return sf::Vector2f(s.getPosition().x + (s.getGlobalBounds().width / 2), s.getPosition().y + (s.getGlobalBounds().height / 2));
 }
 
+// reset states and create a new game
 void Game::newGame() {
     createFlower = CreateFlower();
     little_flower = LittleFlower();
@@ -86,8 +77,6 @@ void Game::newGame() {
 Game::Game() {
     this->initVariables();
     this->initWindow();
-    this->initFonts();
-    this->initText();
     this->initSprites();
 }
 
@@ -129,6 +118,7 @@ void Game::updateMousePositions() {
     this->mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 }
 
+// track when mouse is clicked and react appropriately (UI buttons, dragging shapes)
 void Game::mouseClicks() {
     // check left mouse button is not held
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -136,7 +126,7 @@ void Game::mouseClicks() {
         if (this->mouseHeld == false) {
             this->mouseHeld = true;
 
-            // display UI text depending on button clicked
+            // display UI button depending on button clicked
             if (this->about.getGlobalBounds().contains(this->mousePosition)) {
                 this->ui.setButton(1);
             }
@@ -271,8 +261,7 @@ void Game::mouseClicks() {
     }
 }
 
-void Game::updateText() {}
-
+// update sprite textures in game
 void Game::updateSprites() {
     this->flower.setTexture(this->little_flower.getTexture());
 
@@ -280,12 +269,12 @@ void Game::updateSprites() {
         this->shapes.addShape();
 }
 
-// update little flower object by calling little flower update methods
+// update little flower texture
 void Game::updateLittleFlower() {
     this->little_flower.updateTexture();
-    this->little_flower.updateTextString();
 }
 
+// update UI textures and message box visibility
 void Game::updateUI() {
 
     if (this->little_flower.getState() == 3)
@@ -298,6 +287,7 @@ void Game::updateUI() {
         this->msg_box = this->ui.getMsgBox();
 }
 
+// update state of game
 void Game::updateState() {
     if (this->puzzles.checkEquality(this->shapes.getShapes())) {
         // pause before switching states
@@ -310,7 +300,7 @@ void Game::updateState() {
             if (this->puzzles.getState() <= 2)
                 this->puzzles.setState(this->puzzles.getState() + 1);
             if (this->puzzles.getState() == 3) {
-                // TODO: game over code
+                // TODO: prompt if user wants to play again
                 std::cout << "game over" << std::endl;
             }
 
@@ -328,6 +318,7 @@ void Game::updateState() {
     }
 }
 
+// call all update methods, keep track of pause
 void Game::update() {
     this->pollEvents();
 
@@ -341,7 +332,6 @@ void Game::update() {
     if (!this->endGame && !this->paused) {
         this->updateMousePositions();
         this->mouseClicks();
-        this->updateText();
         this->updateSprites();
         this->updateLittleFlower();
         this->updateUI();
@@ -349,8 +339,7 @@ void Game::update() {
     }
 }
 
-void Game::renderText(sf::RenderTarget& target) {}
-
+// render all sprites
 void Game::renderSprites(sf::RenderTarget& target) {
     target.draw(this->background_sprite);
     target.draw(this->flower);
@@ -387,7 +376,6 @@ void Game::render() {
 
     // draw objects
     this->renderSprites(*this->window);
-    this->renderText(*this->window);
 
     this->window->display();
 }
