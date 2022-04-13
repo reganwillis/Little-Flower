@@ -1,3 +1,6 @@
 [submodule "Create-Flower"]
 	path = Create-Flower
 	url = https://github.com/reganwillis/Create-Flower
+[submodule "Create-Tezos-NFT"]
+	path = Create-Tezos-NFT
+	url = https://github.com/reganwillis/Create-Tezos-NFT.git
