@@ -3,6 +3,7 @@ Little Flower Video Game for Windows PC written in C++. Grow a randomly generate
 
 ## Included Repositories
 * [Create-Flower](https://github.com/reganwillis/Create-Flower)
+* [Create-Tezos-NFT](https://github.com/reganwillis/Create-Tezos-NFT)
 
 ## Libraries
 * [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/)
