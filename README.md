@@ -12,7 +12,7 @@ Little Flower Video Game for Windows PC written in C++. Grow a randomly generate
 To play the game, download the installer from the [game website](https://reganwillis.github.io/Little-Flower/).
 
 ### Development
-For developers, clone this repository and use the batch script instructions below to create and run the EXE. All libraries will need to be downloaded and all .dll files from SFML/bin need to be added to the project folder.
+For developers, clone this repository and navigate into the top level directory. Update the submodules with `git submodule update --init --recursive`. Use the batch script instructions below to create and run the EXE. All libraries will need to be downloaded and all .dll files from SFML/bin need to be added to the project folder.
 
 #### Batch Script
 Use the command `run` in the windows command line to run the batch script. This will run the commands to compile files, link them, and run the EXE as shown in the example below:
