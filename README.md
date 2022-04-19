@@ -2,8 +2,8 @@
 Little Flower Video Game for Windows PC written in C++. Grow a randomly generated flower and mint it on the Tezos blockchain.
 
 ## Included Repositories
-* [Create-Flower](https://github.com/reganwillis/Create-Flower)
-* [Create-Tezos-NFT](https://github.com/reganwillis/Create-Tezos-NFT)
+* [Create-Flower](https://github.com/reganwillis/Create-Flower/tree/v1.0.0)
+* [Create-Tezos-NFT](https://github.com/reganwillis/Create-Tezos-NFT/tree/v1.0.0)
 
 ## Libraries
 * [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/)
