@@ -9,7 +9,7 @@ Little Flower Video Game for Windows PC written in C++. Grow a randomly generate
 * [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/)
 
 ## Usage
-To play the game, download the installer from the [game website](https://reganwillis.github.io/Little-Flower/).
+To play the game, visit the [game website](https://reganwillis.github.io/Little-Flower/) for instructions or just download the installer [here](https://github.com/reganwillis/Little-Flower/releases/tag/v1.0.0).
 
 ### Development
 For developers, clone this repository and navigate into the top level directory. Update the submodules with `git submodule update --init --recursive`. Use the batch script instructions below to create and run the EXE. All libraries will need to be downloaded and all .dll files from SFML/bin need to be added to the project folder.
