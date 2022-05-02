@@ -42,6 +42,22 @@ img {
     padding-right: 20px;
 }
 
+.caption {
+    margin-top: 0;
+    padding-top: 0;
+    font-size: smaller;
+    color: darkslategrey
+}
+
 #minted-picture {
     max-width: 700px;
+}
+
+@media only screen and (max-width: 1250px) {
+    .growth {
+        max-width: 60px;
+    }
+    #minted-picture {
+        max-width: 350px;
+    }
 }
